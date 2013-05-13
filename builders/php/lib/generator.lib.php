@@ -30,14 +30,18 @@ class Generator extends Builder {
 		// render out the main pages and move them to public
 		$nd = $this->gatherNavItems();
 		
-		$fd = array("buckets" => array(array("bucketName" => "atoms")));
+		// grab the partials into a data object for the style guide
+		$sd = $this->gatherPartials();
 		
 		$e = new Mustache_Engine(array(
-			'loader' => new Mustache_Loader_FilesystemLoader('../../source/site/'),
-			'partials_loader' => new Mustache_Loader_FilesystemLoader('../../source/site/partials/'),
+			'loader' => new Mustache_Loader_FilesystemLoader('../../source/templates/'),
+			'partials_loader' => new Mustache_Loader_FilesystemLoader('../../source/templates/partials/'),
 		));
 		$r = $e->render('index',$nd);
 		file_put_contents('../../public/index.html',$r);
+		
+		$s = $e->render('styleguide',$sd);
+		file_put_contents('../../public/styleguide.html',$s);
 		//chmod('../../public/index.html',$this->fp);
 		
 	}
@@ -108,23 +112,18 @@ class Generator extends Builder {
 		
 		return $b;
 		
-		/*
-		buckets {
-			a {
-				bucketName = foo,
-				navItems {
-					blocks {
-						sectionName = blocks,
-						navSubItems {
-							0 {
-								patternPath = a-blocks-cra,
-								patternName = cra
-							}
-						}
-					}
+	}
+	
+	private function gatherPartials() {
+		$p = array("partials" => array());
+		$entries = scandir($this->sp);
+		foreach($entries as $entry) {
+			if (!in_array($entry,$this->if) && ($entry[0] != "p")) {
+				if (file_exists($this->sp.$entry."/pattern.mustache")) {
+					$p["partials"][] = $this->renderPattern($this->sp.$entry."/pattern.mustache");
 				}
 			}
 		}
-		*/
+		return $p;
 	}
 }
