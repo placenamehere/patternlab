@@ -22,13 +22,12 @@ class Generator extends Builder {
 	public function generate() {
 		
 		// gather data
-		//$this->gatherData();
+		$this->gatherData();
 		
 		// render out the patterns and move them to public/patterns
-		//$this->renderAndMove();
+		$this->renderAndMove();
 		
 		// render out the main pages and move them to public
-		
 		$nd = $this->gatherNavItems();
 		
 		$fd = array("buckets" => array(array("bucketName" => "atoms")));
