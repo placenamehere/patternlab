@@ -101,7 +101,8 @@
 		//Left Navigation Anchors
 		$('.sg-nav a').not('.sg-acc-handle').on("click", function(e){
 			$("#sg-viewport").attr('src',this.href);
-			console.log();
+			$(this).parents('.sg-acc-panel').toggleClass('active');
+			$(this).parents('.sg-acc-panel').siblings('.sg-acc-handle').toggleClass('active');
 			return false;
 		});
 
