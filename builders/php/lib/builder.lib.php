@@ -91,9 +91,9 @@ class Builder {
 					$r = $this->renderFile($this->sp.$entry."/pattern.mustache");
 					if (!is_dir($this->pp.$entry)) {
 						mkdir($this->pp.$entry);
-						chmod($this->pp.$entry,$this->dp);
+						//chmod($this->pp.$entry,$this->dp);
 						file_put_contents($this->pp.$entry."/pattern.html",$r);
-						chmod($this->pp.$entry."/pattern.html",$this->fp);
+						//chmod($this->pp.$entry."/pattern.html",$this->fp);
 					} else {
 						file_put_contents($this->pp.$entry."/pattern.html",$r);
 					}
