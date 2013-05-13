@@ -1,3 +1,7 @@
 .DS_Store
 public/index.html
 public/styleguide.html
+public/patterns/a*
+public/patterns/m*
+public/patterns/o*
+public/patterns/p*
