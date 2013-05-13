@@ -69,11 +69,16 @@ class Builder {
 				}
 			}
 		}
+	
+	}
+	
+	protected function renderPattern($f) {
+		return $this->m->render($f,$this->d);
 	}
 	
 	private function renderFile($f) {
 		$h  = file_get_contents($this->sp."d-wrapper/header.html");
-		$rf = $this->m->render($f,$this->d);
+		$rf = $this->renderPattern($f);
 		$f  = file_get_contents($this->sp."d-wrapper/footer.html");
 		return $h."\n".$rf."\n".$f;
 	}
