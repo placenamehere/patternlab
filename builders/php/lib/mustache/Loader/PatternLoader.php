@@ -95,6 +95,7 @@ class Mustache_Loader_PatternLoader implements Mustache_Loader
         $fileName = $this->getFileName($name);
 
         if (!file_exists($fileName)) {
+			print "Help: ".$fileName."\n";
             throw new Mustache_Exception_UnknownTemplateException($name);
         }
 

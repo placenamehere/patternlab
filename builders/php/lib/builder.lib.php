@@ -23,13 +23,13 @@ class Builder {
 	public function __construct() {
 		
 		// set-up the configuration options for patternlab
-		if (!($config = @parse_ini_file("../../config/config.ini"))) {
+		if (!($config = @parse_ini_file(__DIR__."/../../../config/config.ini"))) {
 			// config.ini didn't exist so attempt to create it using the default file
-			if (!@copy("../../config/config.ini.default", "../../config/config.ini")) {
+			if (!@copy(__DIR__."/../../../config/config.ini.default", __DIR__."/../../../config/config.ini")) {
 				print "Please make sure config.ini.default exists before trying to have PatternLab build the config.ini file automagically.";
 				exit;
 			} else {
-				$config = @parse_ini_file("../../config/config.ini");	
+				$config = @parse_ini_file(__DIR__."/../../../config/config.ini");	
 			}
 		}
 		
@@ -38,12 +38,12 @@ class Builder {
 			$this->$key = ($key == "if") ? explode(",",$value) : $value;
 		}
 		
-		require 'lib/mustache/Autoloader.php';
+		require __DIR__."/mustache/Autoloader.php";
 		Mustache_Autoloader::register();
 		
 		$this->m = new Mustache_Engine(array(
-			'loader' => new Mustache_Loader_PatternLoader($this->sp),
-			'partials_loader' => new Mustache_Loader_PatternLoader($this->sp)
+			'loader' => new Mustache_Loader_PatternLoader(__DIR__."/"),
+			"partials_loader" => new Mustache_Loader_PatternLoader(__DIR__."/../../../source/patterns")
 		));
 		
 	}
@@ -54,17 +54,17 @@ class Builder {
 	protected function gatherData() {
 		
 		// gather the data from the main source data.json
-		if (file_exists("../../source/data/data.json")) {
-			$this->d = (object) array_merge((array) $this->d, (array) json_decode(file_get_contents("../../source/data/data.json")));
+		if (file_exists(__DIR__."/../../../source/data/data.json")) {
+			$this->d = (object) array_merge((array) $this->d, (array) json_decode(file_get_contents(__DIR__."/../../../source/data/data.json")));
 		}
 		
 		// gather data from pattern/data.json
-		$entries = scandir($this->sp);
+		$entries = scandir(__DIR__."/".$this->sp);
 		foreach($entries as $entry) {
 			if (!in_array($entry,$this->if)) {
-				if (file_exists($this->sp.$entry."/data.json")) {
+				if (file_exists(__DIR__."/".$this->sp.$entry."/data.json")) {
 					$d = new stdClass();
-					$d->$entry = json_decode(file_get_contents($this->sp.$entry."/data.json"));
+					$d->$entry = json_decode(file_get_contents(__DIR__."/".$this->sp.$entry."/data.json"));
 					$this->d = (object) array_merge((array) $this->d, (array) $d);
 				}
 			}
@@ -77,25 +77,25 @@ class Builder {
 	}
 	
 	private function renderFile($f) {
-		$h  = file_get_contents($this->sp."d-wrapper/header.html");
+		$h  = file_get_contents(__DIR__."/".$this->sp."d-wrapper/header.html");
 		$rf = $this->renderPattern($f);
-		$f  = file_get_contents($this->sp."d-wrapper/footer.html");
+		$f  = file_get_contents(__DIR__."/".$this->sp."d-wrapper/footer.html");
 		return $h."\n".$rf."\n".$f;
 	}
 	
 	protected function renderAndMove() {
-		$entries = scandir($this->sp);
+		$entries = scandir(__DIR__."/".$this->sp);
 		foreach($entries as $entry) {
 			if (!in_array($entry,$this->if)) {
-				if (file_exists($this->sp.$entry."/pattern.mustache")) {
+				if (file_exists(__DIR__."/".$this->sp.$entry."/pattern.mustache")) {
 					$r = $this->renderFile($this->sp.$entry."/pattern.mustache");
-					if (!is_dir($this->pp.$entry)) {
-						mkdir($this->pp.$entry);
+					if (!is_dir(__DIR__."/".$this->pp.$entry)) {
+						mkdir(__DIR__."/".$this->pp.$entry);
 						//chmod($this->pp.$entry,$this->dp);
-						file_put_contents($this->pp.$entry."/pattern.html",$r);
+						file_put_contents(__DIR__."/".$this->pp.$entry."/pattern.html",$r);
 						//chmod($this->pp.$entry."/pattern.html",$this->fp);
 					} else {
-						file_put_contents($this->pp.$entry."/pattern.html",$r);
+						file_put_contents(__DIR__."/".$this->pp.$entry."/pattern.html",$r);
 					}
 				}
 			}

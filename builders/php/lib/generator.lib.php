@@ -34,14 +34,14 @@ class Generator extends Builder {
 		$sd = $this->gatherPartials();
 		
 		$e = new Mustache_Engine(array(
-			'loader' => new Mustache_Loader_FilesystemLoader('../../source/templates/'),
-			'partials_loader' => new Mustache_Loader_FilesystemLoader('../../source/templates/partials/'),
+			'loader' => new Mustache_Loader_FilesystemLoader(__DIR__."/../../../source/templates/"),
+			'partials_loader' => new Mustache_Loader_FilesystemLoader(__DIR__."/../../../source/templates/partials/"),
 		));
 		$r = $e->render('index',$nd);
-		file_put_contents('../../public/index.html',$r);
+		file_put_contents(__DIR__."/../../../public/index.html",$r);
 		
 		$s = $e->render('styleguide',$sd);
-		file_put_contents('../../public/styleguide.html',$s);
+		file_put_contents(__DIR__."/../../../public/styleguide.html",$s);
 		//chmod('../../public/index.html',$this->fp);
 		
 	}
@@ -56,15 +56,16 @@ class Generator extends Builder {
 		$cc = "";      // current class of the object we're looking at (e.g. atom)
 		$cn = 0;       // track the number for the array
 		$sc = "";      // current sub-class of the object we're looking at (e.g. block)
-		$sn = 0;       // track the number for the array
+		$sn = 1;       // track the number for the array
 		$n  = "";      // the name of the final object
 		
 		$b["buckets"] = array();
 		$t   = array("a" => "Atoms", "m" => "Molecules", "o" => "Organisms", "p" => "Pages");
 		$cco = $cc;    // prepopulate the "old" check of the previous current class
+		$cno = $cn;    // prepopulate the "old" check of the previous current class
 		$sco = $sc;    // prepopulate the "old" check of the previous current class
 		
-		$entries = scandir($this->sp);
+		$entries = scandir(__DIR__."/".$this->sp);
 		foreach($entries as $entry) {
 			if (!in_array($entry,$this->if)) {
 				$els = explode("-",$entry,3);
@@ -74,12 +75,12 @@ class Generator extends Builder {
 				
 				if ($cc == $cco) {
 					if ($sc == $sco) {
-						$b["buckets"][$cn]["navItems"][$sn]["navSubItems"][] = array(
+						$b["buckets"][$cno]["navItems"][$sn]["navSubItems"][] = array(
 																				"patternPath" => $entry,
 																				"patternName"  => $n
 																			   );
 					} else {
-						$b["buckets"][$cn]["navItems"][$sn] = array(
+						$b["buckets"][$cno]["navItems"][$sn] = array(
 																"sectionNameLC" => $sc,
 																"sectionNameUC" => ucwords($sc),
 																"navSubItems" => array(
@@ -104,8 +105,9 @@ class Generator extends Builder {
 																"patternName"  => $n
 											    )))));
 					$cco = $cc;
+					$cno = $cn;
 					$cn++;
-					$sn = 0;
+					$sn = 1;
 				}
 			}
 		}
@@ -116,11 +118,11 @@ class Generator extends Builder {
 	
 	private function gatherPartials() {
 		$p = array("partials" => array());
-		$entries = scandir($this->sp);
+		$entries = scandir(__DIR__."/".$this->sp);
 		foreach($entries as $entry) {
 			if (!in_array($entry,$this->if) && ($entry[0] != "p")) {
-				if (file_exists($this->sp.$entry."/pattern.mustache")) {
-					$p["partials"][] = $this->renderPattern($this->sp.$entry."/pattern.mustache");
+				if (file_exists(__DIR__."/".$this->sp.$entry."/pattern.mustache")) {
+					//$p["partials"][] = $this->renderPattern(__DIR__.$this->sp.$entry."/pattern.mustache");
 				}
 			}
 		}

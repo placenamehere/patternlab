@@ -33,7 +33,7 @@ class Watcher extends Builder {
 		$o = new stdClass(); // create an object to hold the properties
 		
 		// generate all of the patterns
-		$entries = scandir($this->sp);
+		$entries = scandir(__DIR__.$this->sp);
 		
 		// run forever
 		while (true) {
@@ -50,8 +50,8 @@ class Watcher extends Builder {
 						}*/
 					}
 					
-					$ph = $this->md5File($this->sp.$entry."/pattern.mustache");
-					$dh = $this->md5File($this->sp.$entry."/data.json");
+					$ph = $this->md5File(__DIR__.$this->sp.$entry."/pattern.mustache");
+					$dh = $this->md5File(__DIR__.$this->sp.$entry."/data.json");
 					
 					if (!$c) {
 						$o->$entry->ph = $ph;
