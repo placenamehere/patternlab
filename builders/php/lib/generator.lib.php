@@ -56,7 +56,7 @@ class Generator extends Builder {
 		$cc = "";      // current class of the object we're looking at (e.g. atom)
 		$cn = 0;       // track the number for the array
 		$sc = "";      // current sub-class of the object we're looking at (e.g. block)
-		$sn = 1;       // track the number for the array
+		$sn = 0;       // track the number for the array
 		$n  = "";      // the name of the final object
 		
 		$b["buckets"] = array();
@@ -64,6 +64,7 @@ class Generator extends Builder {
 		$cco = $cc;    // prepopulate the "old" check of the previous current class
 		$cno = $cn;    // prepopulate the "old" check of the previous current class
 		$sco = $sc;    // prepopulate the "old" check of the previous current class
+		$sno = $sn;
 		
 		$entries = scandir(__DIR__."/".$this->sp);
 		foreach($entries as $entry) {
@@ -75,11 +76,12 @@ class Generator extends Builder {
 				
 				if ($cc == $cco) {
 					if ($sc == $sco) {
-						$b["buckets"][$cno]["navItems"][$sn]["navSubItems"][] = array(
+						$b["buckets"][$cno]["navItems"][$sno]["navSubItems"][] = array(
 																				"patternPath" => $entry,
 																				"patternName"  => $n
 																			   );
 					} else {
+						$sn++;
 						$b["buckets"][$cno]["navItems"][$sn] = array(
 																"sectionNameLC" => $sc,
 																"sectionNameUC" => ucwords($sc),
@@ -89,14 +91,14 @@ class Generator extends Builder {
 																		"patternName"  => $n
 															  )));
 						$sco = $sc;
-						$sn++;
+						$sno = $sn;
 					}
 				} else {
 					$b["buckets"][$cn] = array(
 											   "bucketNameLC" => strtolower($t[$cc]),
 											   "bucketNameUC" => $t[$cc], 
-											   "navItems" => array(
-													array(
+											   "navItems" => array( 
+														array(
 														"sectionNameLC" => $sc,
 														"sectionNameUC" => ucwords($sc),
 														"navSubItems" => array(
@@ -105,9 +107,10 @@ class Generator extends Builder {
 																"patternName"  => $n
 											    )))));
 					$cco = $cc;
+					$sco = $sc;
 					$cno = $cn;
 					$cn++;
-					$sn = 1;
+					$sn = 0;
 				}
 			}
 		}
