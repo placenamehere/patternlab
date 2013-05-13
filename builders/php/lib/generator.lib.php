@@ -117,12 +117,13 @@ class Generator extends Builder {
 	}
 	
 	private function gatherPartials() {
+		$m = $this->mustacheInstance();
 		$p = array("partials" => array());
 		$entries = scandir(__DIR__."/".$this->sp);
 		foreach($entries as $entry) {
 			if (!in_array($entry,$this->if) && ($entry[0] != "p")) {
 				if (file_exists(__DIR__."/".$this->sp.$entry."/pattern.mustache")) {
-					//$p["partials"][] = $this->renderPattern(__DIR__.$this->sp.$entry."/pattern.mustache");
+					$p["partials"][] = $this->renderPattern($entry."/pattern.mustache",$m);
 				}
 			}
 		}
