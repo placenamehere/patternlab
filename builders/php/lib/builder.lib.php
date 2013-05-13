@@ -52,6 +52,13 @@ class Builder {
 	 * Gathers data in all of the data.json files
 	 */
 	protected function gatherData() {
+		
+		// gather the data from the main source data.json
+		if (file_exists("../../source/data/data.json")) {
+			$this->d = (object) array_merge((array) $this->d, (array) json_decode(file_get_contents("../../source/data/data.json")));
+		}
+		
+		// gather data from pattern/data.json
 		$entries = scandir($this->sp);
 		foreach($entries as $entry) {
 			if (!in_array($entry,$this->if)) {
