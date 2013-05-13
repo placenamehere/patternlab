@@ -100,8 +100,9 @@
 		
 		//Left Navigation Anchors
 		$('.sg-nav a').not('.sg-acc-handle').on("click", function(e){
-			var $thisHref = $(this).attr('href');
-			//e.preventDefault();
+			$("#sg-viewport").attr('src',this.href);
+			console.log();
+			return false;
 		});
 
 		//Clean View Trigger
@@ -142,8 +143,9 @@
 		//Pattern Click
 		$vp.find('.sg-head a').on("click", function(e){
 			e.preventDefault();
+			console.log("hello");
 			var thisHref = $(this).attr('href');
-			window.location = thisHref;
+			//window.location = thisHref;
 		});
 	});
 	
