@@ -58,3 +58,5 @@ Ok, so these are the things I want to work on cleaning up:
 * that said, i'd also love to make this multi-device capable (e.g. update pattern on a desktop and see it show up across multiple devices). not sure how ish works in that context but it'd be cool to play around with. this would also require a server-side language choice... i think.
 * this repo has to be cleaned & moved to a github organization. you have at least one image which shouldn't be here and, since it's under version control, it'll always be here even in a delete.
 
+Crazy idea, a codepen like interface for modifying the pattern, related data, and styles in the browser. I don't think I could touch related JS.
+
