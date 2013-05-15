@@ -13,3 +13,7 @@ fp = 0664;
 
 // directories/files to ignore when iterating over the patterns directory
 if = ".,..,.DS_Store,d-wrapper";
+
+// files to watch updates, second var is for where they go
+wf = "scss/style.css"
+mf = "css/"

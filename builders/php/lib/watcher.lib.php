@@ -29,7 +29,7 @@ class Watcher extends Builder {
 	public function watch() {
 		
 		$c = false;          // have the files been added to the overall object?
-		$t = false;          // was their an change found? re-render
+		$t = false;          // was their a change found? re-render
 		$o = new stdClass(); // create an object to hold the properties
 		
 		// generate all of the patterns
@@ -38,6 +38,7 @@ class Watcher extends Builder {
 		// run forever
 		while (true) {
 			foreach($entries as $entry) {
+				
 				if (!in_array($entry,$this->if)) {
 					
 					// figure out how to watch for new directories and new files
@@ -73,8 +74,46 @@ class Watcher extends Builder {
 							$t = false;
 						}
 					}
+					
 				}
+				
 			}
+			
+			// check the user-supplied watch files (e.g. css)
+			$i = 0;
+			foreach($this->wf as $wf) {
+				
+				if (!$c) {
+					$o->$wf = new stdClass();
+				}
+				
+				$fh = $this->md5File(__DIR__."/../../../source".$wf);
+				if (!$c) {
+					$o->$wf->fh = $fh;
+				} else {
+					if ($o->$wf->fh != $fh) {
+						$o->$wf->fh = $fh;
+						$this->moveFile($wf,$this->mf[$i]);
+						print $wf." changed...\n";
+					};
+					$i++;
+				}
+				
+			}
+			
+			// check the main data.json file for changes
+			$dh = $this->md5File(__DIR__."/../../../source/data/data.json");
+			if (!$c) {
+				$o->dh = $dh;
+			} else {
+				if ($o->dh != $dh) {
+					$o->dh = $dh;
+					$this->gatherData();
+					$this->renderAndMove();
+					print "data/data.json changed...\n";
+				};
+			}
+			
 			$c = true;
 		}
 		
@@ -83,6 +122,10 @@ class Watcher extends Builder {
 	private function md5File($f) {
 		$r = file_exists($f) ? md5_file($f) : '';
 		return $r;
+	}
+	
+	private function moveFile($s,$p) {
+		copy(__DIR__."/../../../source".$s,__DIR__."/../../../public".$p);
 	}
 	
 }

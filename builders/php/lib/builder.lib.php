@@ -16,6 +16,8 @@ class Builder {
 	protected $dp; // permissions for the public pattern dirs
 	protected $fp; // permissions for the public pattern files
 	protected $if; // directories/files to be ignored in source/patterns
+	protected $wf; // files to be watched to see if they should be moved
+	protected $mf; // where the files should be moved too
 	
 	/**
 	* Start up the builder
@@ -35,7 +37,7 @@ class Builder {
 		
 		// populate some standard variables out of the config
 		foreach ($config as $key => $value) {
-			$this->$key = ($key == "if") ? explode(",",$value) : $value;
+			$this->$key = (($key == "if") || ($key == "wf") || ($key == "mf")) ? explode(",",$value) : $value;
 		}
 		
 		require __DIR__."/mustache/Autoloader.php";
