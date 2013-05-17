@@ -1,7 +1,7 @@
 <?php
 
 /*!
- * patternlab builder cli - php v0.1
+ * Pattern Lab Builder CLI v0.1
  *
  * Copyright (c) 2013 Dave Olsen, http://dmolsen.com
  * Licensed under the MIT license
@@ -21,12 +21,13 @@ if (php_sapi_name() == 'cli') {
 		// iterate over the source directory and generate the site
 		$g = new Generator();
 		$g->generate();
-		print "finished\n";
+		print "your site has been generated...\n";
 		
 	} elseif (isset($args["w"])) {
 		
 		// watch the source directory and regenerate any changed files
 		$w = new Watcher();
+		print "watching your site for changes...\n";
 		$w->watch();
 		
 	} else {
