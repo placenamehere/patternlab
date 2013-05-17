@@ -11,6 +11,9 @@ require __DIR__."/lib/builder.lib.php";
 require __DIR__."/lib/generator.lib.php";
 require __DIR__."/lib/watcher.lib.php";
 
+require __DIR__."/lib/mustache/Autoloader.php";
+Mustache_Autoloader::register();
+
 // make sure this script is being accessed from the command line
 if (php_sapi_name() == 'cli') {
 	

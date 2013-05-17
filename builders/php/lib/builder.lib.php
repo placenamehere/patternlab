@@ -41,9 +41,6 @@ class Builder {
 			$this->$key = (($key == "if") || ($key == "wf") || ($key == "mf")) ? explode(",",$value) : $value;
 		}
 		
-		require __DIR__."/mustache/Autoloader.php";
-		Mustache_Autoloader::register();
-		
 	}
 	
 	protected function mustacheInstance() {
