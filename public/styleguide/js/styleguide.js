@@ -98,13 +98,7 @@
 			$vp = $sgViewport.contents(),
 			$sgPattern = $vp.find('.sg-pattern');
 		
-		//Left Navigation Anchors
-		$('.sg-nav a').not('.sg-acc-handle').on("click", function(e){
-			$("#sg-viewport").attr('src',this.href);
-			$(this).parents('.sg-acc-panel').toggleClass('active');
-			$(this).parents('.sg-acc-panel').siblings('.sg-acc-handle').toggleClass('active');
-			return false;
-		});
+		
 
 		//Clean View Trigger
 		$tClean.on("click", function(e){
@@ -144,7 +138,6 @@
 		//Pattern Click
 		$vp.find('.sg-head a').on("click", function(e){
 			e.preventDefault();
-			console.log("hello");
 			var thisHref = $(this).attr('href');
 			//window.location = thisHref;
 		});
@@ -225,5 +218,13 @@
 	    return true;
 	}
 	
-
 })(this);
+
+//Left Navigation Anchors, having it outside fixes the auto-close bug
+$('.sg-nav a').not('.sg-acc-handle').on("click", function(e){
+	$("#sg-viewport").attr('src',this.href);
+	wsp.send(this.href);
+	$(this).parents('.sg-acc-panel').toggleClass('active');
+	$(this).parents('.sg-acc-panel').siblings('.sg-acc-handle').toggleClass('active');
+	return false;
+});
