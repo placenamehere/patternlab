@@ -28,6 +28,11 @@ if (php_sapi_name() == 'cli') {
 		
 	} elseif (isset($args["w"])) {
 		
+		// iterate over the source directory and generate the site
+		$g = new Generator();
+		$g->generate();
+		print "your site has been generated...\n";
+		
 		// watch the source directory and regenerate any changed files
 		$w = new Watcher();
 		print "watching your site for changes...\n";
