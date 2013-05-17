@@ -1,4 +1,6 @@
 {
-	"landscape-4x3": "/images/fpo_landscape.png",
-	"alt": "Image 36"
+	"landscape-4x3": {
+		"src": "/images/fpo_landscape.png",
+		"alt": "4x3 Image"
+	}
 }
