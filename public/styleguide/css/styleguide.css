@@ -363,3 +363,8 @@ html, body {
     color: #dddddd; }
     .demo .gi .gi:nth-of-type(2n), .demo .demo-block .gi:nth-of-type(2n) {
       background: rgba(0, 0, 0, 0.3); }
+
+#navSyncButton.connected, #contentSyncButton.connected {
+	color: #ccc;
+}
+
