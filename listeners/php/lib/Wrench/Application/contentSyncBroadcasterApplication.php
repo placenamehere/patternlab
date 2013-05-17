@@ -1,7 +1,7 @@
 <?php
 
 /*!
- * Content Update Broadcaster, v0.1
+ * Content Sync Broadcaster, v0.1
  *
  * Copyright (c) 2013 Dave Olsen, http://dmolsen.com
  * Licensed under the MIT license
@@ -17,14 +17,12 @@ namespace Wrench\Application;
 use Wrench\Application\Application;
 use Wrench\Application\NamedApplication;
 
-class contentUpdateBroadcasterApplication extends Application {
+class contentSyncBroadcasterApplication extends Application {
+	
 	protected $clients          = array();
 	protected $lastTimestamp    = null;
 	protected $currentAddress   = null;
 	
-	/**
-	 * @see Wrench\Application.Application::onConnect()
-	 */
 	public function onConnect($client) {
 		$id = $client->getId();
 		$this->clients[$id] = $client;
@@ -38,11 +36,7 @@ class contentUpdateBroadcasterApplication extends Application {
 	public function onData($data, $client) {
 		// function not in use
 	}
-
-	/**
-	 * @see Wrench\Application.Application::onUpdate()
-	 */
-
+	
 	public function onUpdate() {
 		// limit updates to once per second
 		if(time() > $this->lastTimestamp) {

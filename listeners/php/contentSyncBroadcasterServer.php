@@ -2,13 +2,13 @@
 <?php
 
 /*!
- * Page Update Server, v0.1
+ * Content Sync Server, v0.1
  *
  * Copyright (c) 2013 Dave Olsen, http://dmolsen.com
  * Licensed under the MIT license
  *
- * The server that clients attach to to learn about page updates. See
- * lib/Wrench/Application/pageUpdateBroadcasterApplication.php for logic
+ * The server that clients attach to to learn about content updates. See
+ * lib/Wrench/Application/contentUpdateBroadcasterApplication.php for logic
  *
  */
 
@@ -24,14 +24,15 @@ if (!($config = @parse_ini_file(__DIR__."/../../config/config.ini"))) {
 	$config = @parse_ini_file(__DIR__."/../../config/config.ini");	
 }
 
-$websocketAddress = ($config) ? $config['websocketAddress'] : '127.0.0.1';
+$address = ($config) ? $config['websocketAddress'] : '127.0.0.1';
+$port    = ($config) ? $config['contentSyncPort'] : '8002';
 
-$server = new \Wrench\Server('ws://'.$websocketAddress.':8000/', array(
+$server = new \Wrench\Server('ws://'.$address.':'.$port.'/', array(
     'allowed_origins'            => array(
 		'127.0.0.1',
-		$websocketAddress
+		$address
     )
 ));
 
-$server->registerApplication('pageupdate', new \Wrench\Application\pageUpdateBroadcasterApplication());
+$server->registerApplication('contentsync', new \Wrench\Application\contentSyncBroadcasterApplication());
 $server->run();
