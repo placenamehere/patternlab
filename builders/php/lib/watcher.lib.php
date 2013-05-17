@@ -71,6 +71,7 @@ class Watcher extends Builder {
 						if ($t) {
 							$this->gatherData();
 							$this->renderAndMove();
+							$this->updateChangeTime();
 							$t = false;
 						}
 					}
@@ -94,6 +95,7 @@ class Watcher extends Builder {
 					if ($o->$wf->fh != $fh) {
 						$o->$wf->fh = $fh;
 						$this->moveFile($wf,$this->mf[$i]);
+						$this->updateChangeTime();
 						print $wf." changed...\n";
 					};
 					$i++;
@@ -110,6 +112,7 @@ class Watcher extends Builder {
 					$o->dh = $dh;
 					$this->gatherData();
 					$this->renderAndMove();
+					$this->updateChangeTime();
 					print "data/data.json changed...\n";
 				};
 			}
@@ -126,6 +129,10 @@ class Watcher extends Builder {
 	
 	private function moveFile($s,$p) {
 		copy(__DIR__."/../../../source".$s,__DIR__."/../../../public".$p);
+	}
+	
+	private function updateChangeTime() {
+		file_put_contents(__DIR__."/../../../public/latest-change.txt",time());
 	}
 	
 }
