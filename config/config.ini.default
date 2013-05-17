@@ -20,3 +20,5 @@ mf = "/css/style.css"
 
 // the web address for the pattern lab materials, use *.xip.io if you want to connect mobile devices
 websocketAddress = "patternlab.localhost"
+contentSyncPort = "8002"
+navSyncPort = "8000"
