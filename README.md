@@ -32,7 +32,7 @@ Once you've generated the site you can set-up the Pattern Lab builder to watch f
 
 To stop the `watch` just press`CTRL+C`. By default, `watch` will monitor the `pattern.mustache` and `data.json` files in `source/patterns`, `source/data/data.json`, as well as any user-defined files listed in `config/config.ini` like a Sass-built `styles.css` file.
 
-**Please note:** Watch doesn't currently add completely brand-new patterns. To add a completely brand-new pattern simply stop `watch` by pressing `CTRL+C`, `generate` the site again, and then `watch` again. Your new files should now be added and should be tracked for changes.
+**Please note:** Watch doesn't currently add completely brand-new patterns. To add a completely brand-new pattern simply stop `watch` by pressing `CTRL+C` and then re-run the `watch` command. Your new files should now be added and should be tracked for changes.
 
 ### 2. Auto-reload The Browser Window When Content Updates
 
