@@ -18,6 +18,7 @@ class Builder {
 	protected $if; // directories/files to be ignored in source/patterns
 	protected $wf; // files to be watched to see if they should be moved
 	protected $mf; // where the files should be moved too
+	protected $websocketAddress; // this is really just for the websocket lib
 	
 	/**
 	* Start up the builder
@@ -73,6 +74,9 @@ class Builder {
 				}
 			}
 		}
+		
+		// add websocket address
+		$this->d = (object) array_merge((array) $this->d, array('websocketaddress' => $this->websocketAddress));
 	
 	}
 	

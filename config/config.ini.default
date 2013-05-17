@@ -17,3 +17,5 @@ if = ".,..,.DS_Store,d-wrapper";
 // files to watch updates, second var is for where they go
 wf = "scss/style.css"
 mf = "css/"
+// the web address for the pattern lab materials, use *.xip.io if you want to connect mobile devices
+websocketAddress = "patternlab.localhost"
