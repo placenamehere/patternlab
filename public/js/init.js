@@ -6,7 +6,7 @@
 		sw = document.body.clientWidth;
 		sh = document.body.clientHeight;
 		
-		updateAds();
+		//updateAds();
 	});
 
 
