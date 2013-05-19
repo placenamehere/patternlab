@@ -223,7 +223,9 @@
 //Left Navigation Anchors, having it outside fixes the auto-close bug
 $('.sg-nav a').not('.sg-acc-handle').on("click", function(e){
 	$("#sg-viewport").attr('src',this.href);
-	wsn.send(this.href);
+	if (wsnConnected) {
+		wsn.send(this.href);
+	}
 	$(this).parents('.sg-acc-panel').toggleClass('active');
 	$(this).parents('.sg-acc-panel').siblings('.sg-acc-handle').toggleClass('active');
 	return false;
