@@ -36,6 +36,8 @@ class navSyncBroadcasterApplication extends Application {
 	}
 	
 	public function onData($data, $client) {
+		preg_match("/http:\/\/[A-z0-9\-\.]{1,}\/(.*)/i",$data,$matches);
+		$data = "/".$matches[1];
 		foreach ($this->clients as $sendto) {
 			$sendto->send($data);
 		}
