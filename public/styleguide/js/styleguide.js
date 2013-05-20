@@ -287,7 +287,7 @@ $("#sg-gen-container").width(origViewportWidth);
 $("#sg-viewport").width(origViewportWidth - 14);
 
 var vpWidth = 0;
-var trackViewportWidth = true;
+var trackViewportWidth = false;
 if (trackViewportWidth && (vpWidth = findValue("vpWidth"))) {
 	updateViewportWidth(vpWidth);
 }
