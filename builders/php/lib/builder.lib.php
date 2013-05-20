@@ -1,7 +1,7 @@
 <?php
 
 /*!
- * patternlab builder class - php v0.1
+ * pattern lab builder class - v0.1
  *
  * Copyright (c) 2013 Dave Olsen, http://dmolsen.com
  * Licensed under the MIT license
