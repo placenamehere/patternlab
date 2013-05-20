@@ -23,15 +23,9 @@ if (!($config = @parse_ini_file(__DIR__."/../../config/config.ini"))) {
 	$config = @parse_ini_file(__DIR__."/../../config/config.ini");	
 }
 
-$address = ($config) ? $config['websocketAddress'] : '127.0.0.1';
-$port    = ($config) ? $config['navSyncPort'] : '8000';
+$port = ($config) ? trim($config['navSyncPort']) : '8000';
 
-$server = new \Wrench\Server('ws://'.$address.':'.$port.'/', array(
-    'allowed_origins'            => array(
-		'127.0.0.1',
-		$address
-    )
-));
+$server = new \Wrench\Server('ws://0.0.0.0:'.$port.'/', array());
 
 $server->registerApplication('navsync', new \Wrench\Application\navSyncBroadcasterApplication());
 $server->run();

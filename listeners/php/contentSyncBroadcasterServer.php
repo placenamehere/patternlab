@@ -23,15 +23,9 @@ if (!($config = @parse_ini_file(__DIR__."/../../config/config.ini"))) {
 	$config = @parse_ini_file(__DIR__."/../../config/config.ini");	
 }
 
-$address = ($config) ? $config['websocketAddress'] : '127.0.0.1';
-$port    = ($config) ? $config['contentSyncPort'] : '8002';
+$port = ($config) ? trim($config['contentSyncPort']) : '8002';
 
-$server = new \Wrench\Server('ws://'.$address.':'.$port.'/', array(
-    'allowed_origins'            => array(
-		'127.0.0.1',
-		$address
-    )
-));
+$server = new \Wrench\Server('ws://0.0.0.0:'.$port.'/', array());
 
 $server->registerApplication('contentsync', new \Wrench\Application\contentSyncBroadcasterApplication());
 $server->run();
