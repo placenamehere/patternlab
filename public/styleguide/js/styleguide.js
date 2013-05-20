@@ -145,6 +145,7 @@
 	
 	//Resize the viewport
 	function sizeiframe(size) {
+		$('#sg-gen-container').width(size+14);
 		$('#sg-viewport').width(size);
 		updateSizeReading(size);
 	}
@@ -180,7 +181,6 @@
 		discoID = false;
 	}
 	
-	
 	/* Returns a random number between min and max */
 	function getRandom (min, max) {
 	    return Math.random() * (max - min) + min;
@@ -204,10 +204,6 @@
 			
 		});
 	
-	
-	/*  */
-	
-	
 	/* load iframe */
 	function loadIframe(iframeName, url) {
 	    var $iframe = $('#' + iframeName);
@@ -222,11 +218,54 @@
 
 //Left Navigation Anchors, having it outside fixes the auto-close bug
 $('.sg-nav a').not('.sg-acc-handle').on("click", function(e){
+	
 	$("#sg-viewport").attr('src',this.href);
+	
 	if (wsnConnected) {
 		wsn.send(this.href);
 	}
+	
 	$(this).parents('.sg-acc-panel').toggleClass('active');
 	$(this).parents('.sg-acc-panel').siblings('.sg-acc-handle').toggleClass('active');
+	
 	return false;
+	
 });
+
+$('#sg-rightpull').mousedown(function(event) {
+	
+	var origClientX = event.clientX;
+	var origViewportWidth = $("#sg-viewport").width();
+	var sizePx = $('.sg-size-px');
+	var sizeEms = $('.sg-size-em');
+	var bodySize = parseInt($('body').css('font-size'));
+	
+	$("#sg-cover").css("display","block");
+	
+	$('#sg-cover').mousemove(function(event) {
+		
+		viewportWidth = (origClientX > event.clientX) ? origViewportWidth - ((origClientX - event.clientX)*2) : origViewportWidth + ((event.clientX - origClientX)*2);
+		
+		if (viewportWidth > 319) {
+			
+			$("#sg-viewport").width(viewportWidth);
+			$("#sg-gen-container").width(viewportWidth + 14);
+			
+			var emSize = viewportWidth/bodySize;
+			sizePx.text(viewportWidth);
+			sizeEms.text(emSize.toFixed(2));
+			
+		}
+		
+	});
+	
+});
+
+$('body').mouseup(function(event) {
+	$('#sg-cover').unbind('mousemove');
+	$('#sg-cover').css("display","none");
+});
+
+var origViewportWidth = $("#sg-viewport").width();
+$("#sg-gen-container").width(origViewportWidth);
+$("#sg-viewport").width(origViewportWidth - 14);
