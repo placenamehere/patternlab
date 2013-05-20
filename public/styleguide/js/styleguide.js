@@ -165,7 +165,7 @@
 	var $bodySize = parseInt($('body').css('font-size'));
 	
 	function displayWidth() {
-		var vpWidth = $sgViewport.width();
+		var vpWidth = $sgViewport.width() - 14;
 		var emSize = vpWidth/$bodySize;
 		$sizePx.text(vpWidth);
 		$sizeEms.text(emSize.toFixed(2));
@@ -174,8 +174,9 @@
 	displayWidth();
 	
 	function updateSizeReading(size) {
+		size = Math.floor(size);
 		var emSize = size/$bodySize;
-		$sizePx.text(Math.floor(size));
+		$sizePx.text(size);
 		$sizeEms.text(emSize.toFixed(2));
 	}
 	
@@ -233,9 +234,9 @@ function updateViewportWidth(size) {
 	var bodySize = parseInt($('body').css('font-size'));
 	
 	$("#sg-viewport").width(size);
-	$("#sg-gen-container").width(size + 14);
+	$("#sg-gen-container").width(Math.floor(size) + 14);
 	
-	var emSize = size/bodySize;
+	var emSize = (Math.floor(size))/bodySize;
 	sizePx.text(Math.floor(size));
 	sizeEms.text(emSize.toFixed(2));
 }
@@ -269,6 +270,12 @@ $('#sg-rightpull').mousedown(function(event) {
 		
 		if (viewportWidth > 319) {
 			
+			if (!findValue('vpWidth')) {
+				addValue("vpWidth",viewportWidth);
+			} else {
+				updateValue("vpWidth",viewportWidth);
+			}
+			
 			updateViewportWidth(viewportWidth);
 			
 		}
@@ -287,7 +294,7 @@ $("#sg-gen-container").width(origViewportWidth);
 $("#sg-viewport").width(origViewportWidth - 14);
 
 var vpWidth = 0;
-var trackViewportWidth = false;
+var trackViewportWidth = true;
 if (trackViewportWidth && (vpWidth = findValue("vpWidth"))) {
 	updateViewportWidth(vpWidth);
 }
