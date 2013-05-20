@@ -33,15 +33,23 @@ function connectNavSync() {
 			$('#navSyncButton').addClass("connected");
 			$('#navSyncButton').html('Nav Sync On');
 		}
-
+		
+		wsn.onclose = function (event) {
+			$('#navSyncButton').attr("data-state","off");
+			if ($('#navSyncButton').hasClass("connected")) {
+				$('#navSyncButton').removeClass("connected");
+			}
+			$('#navSyncButton').html('Nav Sync Disabled');
+		}
+		
 		wsn.onmessage = function (event) {
-
+		
 			if ($sgViewport.attr('src') != event.data) {
 				$sgViewport.attr('src',event.data+'?'+dataPrevious);
 			}
-
+		
 		}
-
+		
 		wsn.onerror = function (event) {
 			$('#navSyncButton').attr("data-state","off");
 			if ($('#navSyncButton').hasClass("connected")) {
@@ -69,7 +77,15 @@ function connectContentSync() {
 			$('#contentSyncButton').addClass("connected");
 			$('#contentSyncButton').html('Content Sync On');
 		}
-	
+		
+		wsc.onclose = function (event) {
+			$('#contentSyncButton').attr("data-state","off");
+			if ($('#contentSyncButton').hasClass("connected")) {
+				$('#contentSyncButton').removeClass("connected");
+			}
+			$('#contentSyncButton').html('Content Sync Disabled');
+		}
+		
 		wsc.onmessage = function (event) {
 		
 			if (dc !== false) {
@@ -85,13 +101,12 @@ function connectContentSync() {
 		}
 	
 		wsc.onerror = function (event) {
-			wsn.onerror = function (event) {
-				$('#contentSyncButton').attr("data-state","off");
-				if ($('#contentSyncButton').hasClass("connected")) {
-					$('#contentSyncButton').removeClass("connected");
-				}
-				$('#contentSyncButton').html('Content Sync Disabled');
+			console.log("error");
+			$('#contentSyncButton').attr("data-state","off");
+			if ($('#contentSyncButton').hasClass("connected")) {
+				$('#contentSyncButton').removeClass("connected");
 			}
+			$('#contentSyncButton').html('Content Sync Disabled');
 		}
 		
 	}
