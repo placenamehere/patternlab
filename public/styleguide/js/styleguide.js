@@ -148,6 +148,15 @@
 		$('#sg-gen-container').width(size+14);
 		$('#sg-viewport').width(size);
 		updateSizeReading(size);
+		saveSize(size);
+	}
+	
+	function saveSize(size) {
+		if (!findValue('vpWidth')) {
+			addValue("vpWidth",size);
+		} else {
+			updateValue("vpWidth",size);
+		}
 	}
 	
 	//Update Size Reading 
@@ -216,6 +225,21 @@
 	
 })(this);
 
+// this sort of dupes what is above. sorry, rather not hack the original styleguide stuff too much
+function updateViewportWidth(size) {
+	
+	var sizePx = $('.sg-size-px');
+	var sizeEms = $('.sg-size-em');
+	var bodySize = parseInt($('body').css('font-size'));
+	
+	$("#sg-viewport").width(size);
+	$("#sg-gen-container").width(size + 14);
+	
+	var emSize = size/bodySize;
+	sizePx.text(Math.floor(size));
+	sizeEms.text(emSize.toFixed(2));
+}
+
 //Left Navigation Anchors, having it outside fixes the auto-close bug
 $('.sg-nav a').not('.sg-acc-handle').on("click", function(e){
 	
@@ -236,10 +260,7 @@ $('#sg-rightpull').mousedown(function(event) {
 	
 	var origClientX = event.clientX;
 	var origViewportWidth = $("#sg-viewport").width();
-	var sizePx = $('.sg-size-px');
-	var sizeEms = $('.sg-size-em');
-	var bodySize = parseInt($('body').css('font-size'));
-	
+
 	$("#sg-cover").css("display","block");
 	
 	$('#sg-cover').mousemove(function(event) {
@@ -248,12 +269,7 @@ $('#sg-rightpull').mousedown(function(event) {
 		
 		if (viewportWidth > 319) {
 			
-			$("#sg-viewport").width(viewportWidth);
-			$("#sg-gen-container").width(viewportWidth + 14);
-			
-			var emSize = viewportWidth/bodySize;
-			sizePx.text(viewportWidth);
-			sizeEms.text(emSize.toFixed(2));
+			updateViewportWidth(viewportWidth);
 			
 		}
 		
@@ -269,3 +285,9 @@ $('body').mouseup(function(event) {
 var origViewportWidth = $("#sg-viewport").width();
 $("#sg-gen-container").width(origViewportWidth);
 $("#sg-viewport").width(origViewportWidth - 14);
+
+var vpWidth = 0;
+var trackViewportWidth = true;
+if (trackViewportWidth && (vpWidth = findValue("vpWidth"))) {
+	updateViewportWidth(vpWidth);
+}
