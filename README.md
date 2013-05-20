@@ -88,7 +88,7 @@ Patterns are organized into atoms, molecules, organisms, and pages. The pattern 
 This is what each means:
 
 * `patternComplexity` denotes the overall type of pattern. _a_ is for atoms, _m_ is for molecules, _o_ is for organisms, and _p_  is for pages.
-* `patternType` denotes the sub-type of pattern it is. This helps to organize patterns in the drop downs in Pattern Lab.
+* `patternType` denotes the sub-type of pattern. This helps to organize patterns in the drop downs in Pattern Lab.
 * `patternName` is obviously the actual name of the pattern.
 
 In order for Pattern Lab to work you must follow the directory naming convention when creating new patterns. Also, a pattern **must** be named `pattern.mustache`.
