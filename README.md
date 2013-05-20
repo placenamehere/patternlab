@@ -8,95 +8,112 @@ Brad had a crazy idea.
 
 After downloading Pattern Lab you can do the following to set it up:
 
-### 1. Set-up Your Web Server
+### 1. Configure Apache
 
-Make sure the web server is pointed at the `public` directory as the `DocumentRoot` for the Pattern Lab site. Not sure what that means? There are directions in `extras/apache/` to help you.
+Most of the features in Pattern Lab require it to be running on a web server like Apache. The ideal set-up is to run Apache and Pattern Lab locally on your computer. If you don't know how to set-up Apache there are directions for Mac OS X in `extras/apache/`. 
 
-### 2. Configure & Pre-load Pattern Lab
+### 2. Configure & Pre-Build Pattern Lab
 
-By default, a number of important pages like `public/index.html` *aren't* built when you first download Pattern Lab. So before you visit the site you'll need to make sure it is built. To do so open Terminal, get to the Pattern Lab directory and type:
+By default, a number of important pages, including the main page, *aren't* built when you first download Pattern Lab. Before you visit your install of Pattern Lab you'll need to make sure all of the necessary pages have been built. 
 
-    php builders/php/builder.php -g
+To generate your site do the following:
 
-The site should now be generated and available. Simply follow the Regular Use steps to finish the set-up process.
+1. Open `scripts/php`
+2. Double-click `generateSite.command`
+
+The site should now be generated and available. Simply follow the "Regular Use" steps to finish the set-up process.
 
 ## Regular Use
 
 Each time you used Pattern Lab you'd want to follow these steps.
 
-### 1. Watching for Changes To Your Patterns & Data
+### 1. Watching for Changes & Auto-Regenerating Patterns
 
-Once you've generated the site you can set-up the Pattern Lab builder to watch for changes to patterns or their related data. This way the public files will be automagically rendered when you save patterns or their data. All you'll need to do to see changes you make is to refresh the browser. To set-up the watch type:
+Once you've generated the site Pattern Lab can watch for changes to patterns or their related data. When they're being watched, Pattern Labs' public files will be automagically rendered when you save patterns or their related data. To see changes all you need to do is refresh your browser. 
 
-    php builders/php/builder.php -w
+To set-up the watch do the following:
 
-To stop the `watch` just press`CTRL+C`. By default, `watch` will monitor the `pattern.mustache` and `data.json` files in `source/patterns`, `source/data/data.json`, as well as any user-defined files listed in `config/config.ini` like a Sass-built `styles.css` file.
+1. Open `scripts/php`
+2. Double-click `watchForChanges.command`
 
-**Please note:** Watch doesn't currently add completely brand-new patterns. To add a completely brand-new pattern simply stop `watch` by pressing `CTRL+C` and then re-run the `watch` command. Your new files should now be added and should be tracked for changes.
+To make Pattern Lab stop watching your files just press`CTRL+C`. 
 
-### 2. Auto-reload The Browser Window When Content Updates
+By default, Pattern Lab will monitor the `pattern.mustache` and `data.json` files in `source/patterns`. It will also watch `source/data/data.json` as well as any user-defined files listed in `config/config.ini`. For example, you might want to track a Sass-built `styles.css` file.
 
-Rather than manually refreshing your browser you can have Pattern Lab auto-reload your browser window for you. To do so simply do the following:
+**Please note:** Pattern Lab will not watch for and automatically add completely brand-new patterns. To add a completely brand-new pattern simply stop the watch by pressing `CTRL+C` and then double-click `watchForChanges.command`. Your new files should now be added and should be tracked for changes.
 
-1. Open a new tab or new window in Terminal
-2. Make sure you're in the Pattern Lab directory
-3. Type `php listeners/php/contentUpdateBroadcasterServer.php` and hit return
+### 2. Auto-Reload the Browser Window When Content Updates
 
-Reload the Pattern Lab website and your browser should now be listening for auto-reload events. To test simply modify a pattern and see if the window updates.
+Rather than manually refreshing your browser you can have Pattern Lab auto-reload your browser window for you. To turn this feature on do the following:
 
-**Please note:** If you find that it's not working properly make sure your browser [supports WebSockets](http://caniuse.com/websockets) and that the address you're visiting in your browser matches the websocketAddress in `config/config.ini`.
+1. Open `scripts/php`
+2. Double-click `startContentSyncServer.command`
+3. Refresh the Pattern Lab site
 
-### 3. Test in Multiple Tabs or Multiple Browsers
+Your browser should now be listening for auto-reload events. The Pattern Lab toolbar should note that content sync is now "on."
 
-If you want to test a pattern in multiple tabs or browsers without refreshing them all or having to navigate to new patterns in each simply set-up the Page Update Broadcaster. Any browser or tab should control all of the browsers or tabs. To do so simply do the following:
+**Please note:** If you find that content sync is not working properly please make sure your browser [supports WebSockets](http://caniuse.com/websockets).
 
-1. Open a new tab or new window in Terminal
-2. Make sure you're in the Pattern Lab directory
-3. Type `php listeners/php/pageUpdateBroadcasterServer.php` and hit return
+### 3. Sync Pattern Browsing Across Multiple Tabs or Browsers
 
-Reload the Pattern Lab website in multiple tabs or multiple browsers and they should now be listening for auto-page events. To test simply visit a different pattern in one browser and see if it shows up in the other tabs.
+If you want to test a pattern in multiple tabs or browsers without refreshing them all or having to navigate to new patterns in each simply use Pattern Labs navigation sync feature. Any browser or tab should control all of the browsers or tabs. To turn this feature on do the following:
 
-**Please note:** If you find that it's not working properly make sure your browser [supports WebSockets](http://caniuse.com/websockets) and that the address you're visiting in your browser matches the websocketAddress in `config/config.ini`.
+1. Open `scripts/php`
+2. Double-click `startNavSyncServer.command`
+3. Refresh the Pattern Lab site
 
-## Modifying Patterns
+Your browser should now be listening for nav sync events. The Pattern Lab toolbar should note that nav sync is now "on." Any other browser that visits the Pattern Lab site should now be redirected to the last visited pattern. When one browser views another pattern they should all be updated.
 
-Modifying patterns is fairly straightforward.
+If you want to view patterns on your mobile device simply do the following:
 
-### Modifying Patterns Themselves
+1. Make sure your mobile device and computer are on the same WiFi network
+2. Note the IP address for your computer (_found under System Preferences > Sharing_)
+3. Replace the star with your IP address in the following address: `patternlab.*.xip.io`
+4. Enter that into the browser on your mobile device
 
-Modify the pattern itself by hacking at `[pattern-name]/pattern.mustache`. If you're using `watch` the changes will be automatically tracked. Pattern Lab supports the [Mustache syntax](http://mustache.github.io/mustache.5.html).
+The above assumes that your Apache VirtualHost has `patternlab.*.xip.io` as a `ServerAlias`. If it doesn't please add it.
 
-### Referencing Another Pattern
+**Please note:** If you find that nav sync is not working properly please make sure your browser [supports WebSockets](http://caniuse.com/websockets).
 
-To use another pattern in the pattern your editing simply use the [Mustache](http://mustache.github.io/mustache.5.html) partials syntax. The name of the partial is simply the directory holding the other pattern.
+## All About Patterns
 
-    {{> a-images-logo }}
+All you ever wanted to know about patterns.
 
-### Organizing Patterns
+### How Patterns Are Organized
 
-Patterns are organized into atoms, molecules, organisms, and pages. In order to have all of the build and partial support work automatically simply follow this directory naming convention:
+Patterns are organized into atoms, molecules, organisms, and pages. The pattern directories have the following naming convention: 
 
     [patternComplexity]-[patternType]-[patternName]
 
 This is what each means:
 
-* The first letter of pattern directory should start with: a (*for atoms*), m (*for molecules*), o (*for organisms*), or p (*for pages*).
-* The second part of the name is the type of pattern it is. e.g. how to organize it in the drop-down in Pattern Lab.
-* The third part is the name of the pattern itself.
+* `patternComplexity` denotes the overall type of pattern. _a_ is for atoms, _m_ is for molecules, _o_ is for organisms, and _p_  is for pages.
+* `patternType` denotes the sub-type of pattern it is. This helps to organize patterns in the drop downs in Pattern Lab.
+* `patternName` is obviously the actual name of the pattern.
 
-A pattern **must** be named `pattern.mustache`.
+In order for Pattern Lab to work you must follow the directory naming convention when creating new patterns. Also, a pattern **must** be named `pattern.mustache`.
+
+### Modifying Individual Patterns
+
+To modify an individual pattern simply open it up and edit it. Patterns can be found in `source/[pattern-name]/pattern.mustache`. Pattern Lab supports the [Mustache syntax](http://mustache.github.io/mustache.5.html).
+
+### Including One Pattern Within Another
+
+To use another pattern in another, for example to create a molecule from several atoms, just use the [Mustache](http://mustache.github.io/mustache.5.html) partials syntax. The name of the partial should be the name of the directory for the partial you want to include. For example, to include the logo image atom you'd use:
+
+    {{> a-images-logo }}
 
 ### Adding/Modifying Static Assets for a Pattern
 
-To add static assets like a special CSS file that's included by your pattern or an image that's referenced by a pattern simply put the asset in the appropriate directory in `public/`.
+To add static assets like a special CSS file that's included by your pattern or an image that's referenced by a pattern simply put the asset in the appropriate directory in `public/`. For example, JavaScript should go in `public/js/` and CSS should go in `public/css/`. Pattern Lab comes with several standard libraries by default.
 
 ### Modifying Data for a Pattern
 
-A pattern can reference variables, [via Mustache](http://mustache.github.io/mustache.5.html), to include dynamic content. You can define the data in three places:
+A pattern can reference variables, [via Mustache](http://mustache.github.io/mustache.5.html), to include "dynamic" content. Depending on your preferences you can define and/or modify data in three places:
 
-1. Include a `data.json` file in the pattern directory itself. When referencing the data in the pattern you must scope the data to that pattern name. For example, if you want to use reference the image src in `data.json` in the `a-images-landscape` directory in your pattern you must reference `{{ a-images-landscape.landscape-4x3.src }}`.
-2. Modify the global `data.json` file in the `source` dir and use a nested naming scheme. If you look at the `data.json` file you'll see the first example nests the landscape 4x3 path in `atoms > images` just as if they were in a real directory. You'd reference the var in your pattern as `{{ atoms.images.landscape-4x3.src }}`
-3. Modify the global `data.json` file in the `source` dir and use a flat naming scheme. If you look at the `data.json` file you'll see the first example just has the landscape 4x3 path at the top level. You'd reference the var in your pattern as `{{ landscape-4x3.src }}`
+1. Include a `data.json` file in the pattern directory itself. When referencing the data in the pattern you **must** scope the data to that pattern's name. For example, if you want to reference the data in the `data.json` in the `source/patterns/a-images-landscape-4x3` directory in your pattern you must reference `{{ a-images-landscape-4x3.src }}`.
+2. Modify `source/data/data.json` and use a nested naming scheme. For example, the first entry in the default file nests by type and sub-type. To reference the nested landscape 4x3 image in your pattern you'd use `{{ atoms.images.landscape-4x3.src }}`.
+3. Modify `source/data/data.json` and use a flat naming scheme. For example, the second entry in the default file doesn't nest the object at all. To reference the flat landscape 4x3 image in your pattern you'd use `{{ landscape-4x3.src }}`
 
 All of these are supported "out-of-the-box." There's no need to settle on any particular format.
 
