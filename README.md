@@ -27,7 +27,7 @@ The site should now be generated and available. Simply follow the "Regular Use" 
 
 Their are several options you can enable when using Pattern Lab on a regular basis.
 
-### Watch for Changes & Auto-Regenerating Patterns
+### Watch for Changes & Auto-Regenerate Patterns
 
 Once you've generated the site Pattern Lab can watch for changes to patterns or their related data. When they're being watched, Pattern Lab's public files will be automagically rendered when you save patterns or their related data. To see changes all you need to do is refresh your browser. 
 
@@ -116,6 +116,13 @@ A pattern can reference variables, [via Mustache](http://mustache.github.io/must
 3. Modify `source/data/data.json` and use a flat naming scheme. For example, the second entry in the default file doesn't nest the object at all. To reference the flat landscape 4x3 image in your pattern you'd use `{{ landscape-4x3.src }}`
 
 All of these are supported "out-of-the-box." There's no need to settle on any particular format.
+
+## Credits
+
+The default install of Pattern Lab uses a number of PHP libraries. They are:
+
+* [mustache.php](https://github.com/bobthecow/mustache.php)
+* [Wrench](https://github.com/varspool/Wrench)
 
 ## IDEAS
 
