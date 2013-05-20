@@ -40,7 +40,13 @@ class Builder {
 		
 		// populate some standard variables out of the config
 		foreach ($config as $key => $value) {
-			$this->$key = (($key == "if") || ($key == "wf") || ($key == "mf")) ? explode(",",$value) : $value;
+			if (($key == "if") || ($key == "wf") || ($key == "mf")) {
+				$values = explode(",",$value);
+				array_walk($values,'Builder::trim');
+				$this->$key = $values;
+			} else {
+				$this->$key = $value;
+			}
 		}
 		
 	}
@@ -111,6 +117,10 @@ class Builder {
 	
 	public function printData() {
 		print_r($this->d);
+	}
+	
+	public function trim(&$v) {
+		$v = trim($v);
 	}
 
 }
