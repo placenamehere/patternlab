@@ -29,7 +29,6 @@ class Generator extends Builder {
 		
 		// render out the main pages and move them to public
 		$nd = $this->gatherNavItems();
-		$nd['websocketaddress'] = $this->websocketAddress;
 		$nd['contentsyncport'] = $this->contentSyncPort;
 		$nd['navsyncport'] = $this->navSyncPort;
 		
