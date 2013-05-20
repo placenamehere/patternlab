@@ -25,11 +25,11 @@ The site should now be generated and available. Simply follow the "Regular Use" 
 
 ## Regular Use
 
-Each time you used Pattern Lab you'd want to follow these steps.
+Their are several options you can enable when using Pattern Lab on a regular basis.
 
-### 1. Watching for Changes & Auto-Regenerating Patterns
+### Watch for Changes & Auto-Regenerating Patterns
 
-Once you've generated the site Pattern Lab can watch for changes to patterns or their related data. When they're being watched, Pattern Labs' public files will be automagically rendered when you save patterns or their related data. To see changes all you need to do is refresh your browser. 
+Once you've generated the site Pattern Lab can watch for changes to patterns or their related data. When they're being watched, Pattern Lab's public files will be automagically rendered when you save patterns or their related data. To see changes all you need to do is refresh your browser. 
 
 To set-up the watch do the following:
 
@@ -42,7 +42,7 @@ By default, Pattern Lab will monitor the `pattern.mustache` and `data.json` file
 
 **Please note:** Pattern Lab will not watch for and automatically add completely brand-new patterns. To add a completely brand-new pattern simply stop the watch by pressing `CTRL+C` and then double-click `watchForChanges.command`. Your new files should now be added and should be tracked for changes.
 
-### 2. Auto-Reload the Browser Window When Content Updates
+### Auto-Reload the Browser Window When Content Updates
 
 Rather than manually refreshing your browser you can have Pattern Lab auto-reload your browser window for you. To turn this feature on do the following:
 
@@ -54,9 +54,9 @@ Your browser should now be listening for auto-reload events. The Pattern Lab too
 
 **Please note:** If you find that content sync is not working properly please make sure your browser [supports WebSockets](http://caniuse.com/websockets).
 
-### 3. Sync Pattern Browsing Across Multiple Tabs or Browsers
+### Sync Pattern Browsing Across Multiple Tabs or Browsers
 
-If you want to test a pattern in multiple tabs or browsers without refreshing them all or having to navigate to new patterns in each simply use Pattern Labs navigation sync feature. Any browser or tab should control all of the browsers or tabs. To turn this feature on do the following:
+If you want to test a pattern in multiple tabs or browsers without refreshing them all or having to navigate to new patterns in each simply use Pattern Lab's navigation sync feature. Any browser or tab should control all of the browsers or tabs. To turn this feature on do the following:
 
 1. Open `scripts/php`
 2. Double-click `startNavSyncServer.command`
@@ -67,7 +67,7 @@ Your browser should now be listening for nav sync events. The Pattern Lab toolba
 If you want to view patterns on your mobile device simply do the following:
 
 1. Make sure your mobile device and computer are on the same WiFi network
-2. Note the IP address for your computer (_found under System Preferences > Sharing_)
+2. Note the IP address for your computer (found under System Preferences > Sharing)
 3. Replace the star with your IP address in the following address: `patternlab.*.xip.io`
 4. Enter that into the browser on your mobile device
 
