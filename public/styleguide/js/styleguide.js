@@ -88,7 +88,7 @@
 	
 	$('#sg-size-enter').submit(function(){
 		var val = $('#sg-size-num').val();
-		sizeiframe(val);
+		sizeiframe(Math.floor(val));
 		return false;
 	});
 
