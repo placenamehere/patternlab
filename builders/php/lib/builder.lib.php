@@ -79,10 +79,14 @@ class Builder {
 			$this->d = (object) array_merge(array(), (array) json_decode(file_get_contents(__DIR__."/../../../source/data/data.json")));
 		}
 		
+		// this makes link a reserved word but oh well...
+		$this->d->link = new stdClass();
+		
 		// gather data from pattern/data.json
 		$entries = scandir(__DIR__.$this->sp);
 		foreach($entries as $entry) {
 			if (!in_array($entry,$this->if)) {
+				$this->d->link->$entry = "/patterns/".$entry."/pattern.html";
 				if (file_exists(__DIR__.$this->sp.$entry."/data.json")) {
 					$d = new stdClass();
 					$d->$entry = json_decode(file_get_contents(__DIR__.$this->sp.$entry."/data.json"));
