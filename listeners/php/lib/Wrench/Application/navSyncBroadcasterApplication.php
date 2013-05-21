@@ -19,7 +19,6 @@ use Wrench\Application\NamedApplication;
 class navSyncBroadcasterApplication extends Application {
 	
 	protected $clients = array();
-	protected $lastTimestamp = null;
 	protected $currentAddress = null;
 	
 	/**
