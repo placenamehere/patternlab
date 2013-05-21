@@ -21,7 +21,6 @@ class contentSyncBroadcasterApplication extends Application {
 	
 	protected $clients          = array();
 	protected $lastTimestamp    = null;
-	protected $currentAddress   = null;
 	
 	/**
 	* When a client connects add it to the list of connected clients
