@@ -26,7 +26,8 @@ function connectNavSync() {
 	if ('WebSocket' in window && window.WebSocket.CLOSING === 2) {
 		
 		wsn = new WebSocket("ws://"+host+":"+navSyncPort+"/navsync");
-
+		
+		// when trying to open a connection to WebSocket update the pattern lab nav bar
 		wsn.onopen = function (event) {
 			wsnConnected = true;
 			$('#navSyncButton').attr("data-state","on");
@@ -34,6 +35,7 @@ function connectNavSync() {
 			$('#navSyncButton').html('Nav Sync On');
 		}
 		
+		// when closing a connection (or failing to make a connection) to WebSocket update the pattern lab nav bar
 		wsn.onclose = function (event) {
 			wsnConnected = false;
 			$('#navSyncButton').attr("data-state","off");
@@ -43,10 +45,12 @@ function connectNavSync() {
 			$('#navSyncButton').html('Nav Sync Disabled');
 		}
 		
+		// when receiving a message from WebSocket update the iframe source
 		wsn.onmessage = function (event) {
 			$sgViewport.attr('src',event.data+'?'+dataPrevious);
 		}
 		
+		// when there's an error update the pattern lab nav bar
 		wsn.onerror = function (event) {
 			wsnConnected = false;
 			$('#navSyncButton').attr("data-state","off");
@@ -68,7 +72,8 @@ function connectContentSync() {
 		
 		var dc = true;
 		wsc = new WebSocket("ws://"+host+":"+contentSyncPort+"/contentsync");
-	
+		
+		// when trying to open a connection to WebSocket update the pattern lab nav bar
 		wsc.onopen = function (event) {
 			wscConnected = true;
 			$('#contentSyncButton').attr("data-state","on");
@@ -76,6 +81,7 @@ function connectContentSync() {
 			$('#contentSyncButton').html('Content Sync On');
 		}
 		
+		// when closing a connection (or failing to make a connection) to WebSocket update the pattern lab nav bar
 		wsc.onclose = function (event) {
 			wscConnected = false;
 			$('#contentSyncButton').attr("data-state","off");
@@ -85,6 +91,8 @@ function connectContentSync() {
 			$('#contentSyncButton').html('Content Sync Disabled');
 		}
 		
+		// when receiving a message from WebSocket check to see if the payload is different than previous
+		// if so reload the iframe
 		wsc.onmessage = function (event) {
 			
 			if (dc !== false) {
@@ -98,7 +106,8 @@ function connectContentSync() {
 			}
 		
 		}
-	
+		
+		// when there's an error update the pattern lab nav bar
 		wsc.onerror = function (event) {
 			wscConnected = false;
 			$('#contentSyncButton').attr("data-state","off");
@@ -113,6 +122,7 @@ function connectContentSync() {
 }
 connectContentSync();
 
+// handle when a user manually turns navSync and contentSync on & off
 $('#navSyncButton').click(function() {
 	if ($(this).attr("data-state") == "on") {
 		wsn.close();
