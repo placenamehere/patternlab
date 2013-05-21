@@ -23,20 +23,32 @@ class contentSyncBroadcasterApplication extends Application {
 	protected $lastTimestamp    = null;
 	protected $currentAddress   = null;
 	
+	/**
+	* When a client connects add it to the list of connected clients
+	*/
 	public function onConnect($client) {
 		$id = $client->getId();
 		$this->clients[$id] = $client;
 	}
 	
+	/**
+	* When a client disconnects remove it from the list of connected clients
+	*/
 	public function onDisconnect($client) {
 		$id = $client->getId();
 		unset($this->clients[$id]);
 	}
 	
+	/**
+	* Dead function in this instance
+	*/
 	public function onData($data, $client) {
 		// function not in use
 	}
 	
+	/**
+	* Sends out a message once a second to all connected clients containing the contents of latest-change.txt
+	*/
 	public function onUpdate() {
 		// limit updates to once per second
 		if(time() > $this->lastTimestamp) {

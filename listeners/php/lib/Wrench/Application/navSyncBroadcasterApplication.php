@@ -22,6 +22,9 @@ class navSyncBroadcasterApplication extends Application {
 	protected $lastTimestamp = null;
 	protected $currentAddress = null;
 	
+	/**
+	* When a client connects add it to the list of connected clients. Also send the client the current page to load in their iframe
+	*/
 	public function onConnect($client) {
 		$id = $client->getId();
 		$this->clients[$id] = $client;
@@ -30,11 +33,18 @@ class navSyncBroadcasterApplication extends Application {
 		}
 	}
 	
+	/**
+	* When a client disconnects remove it from the list of connected clients
+	*/
 	public function onDisconnect($client) {
 		$id = $client->getId();
 		unset($this->clients[$id]);
 	}
 	
+	/**
+	* When receiving a message from a client, strip it to avoid cross-domain issues and send it to all clients except the one who sent it
+	* Also store the address as the current address for any new clients that attach
+	*/
 	public function onData($data, $client) {
 		preg_match("/http:\/\/[A-z0-9\-\.]{1,}\/(.*)/i",$data,$matches);
 		$data = "/".$matches[1];
@@ -47,6 +57,9 @@ class navSyncBroadcasterApplication extends Application {
 		$this->currentAddress = $data;
 	}
 
+	/**
+	* Dead function in this instance
+	*/
 	public function onUpdate() {
 		// not using for this application
 	}
