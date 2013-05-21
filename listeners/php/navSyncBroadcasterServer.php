@@ -7,7 +7,7 @@
  * Licensed under the MIT license
  *
  * The server that clients attach to to learn about page updates. See
- * lib/Wrench/Application/pageUpdateBroadcasterApplication.php for logic
+ * lib/Wrench/Application/navSyncBroadcasterApplication.php for logic
  *
  */
 
