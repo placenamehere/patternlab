@@ -252,11 +252,6 @@ $('.sg-nav a').not('.sg-acc-handle').on("click", function(e){
 	// update the iframe
 	$("#sg-viewport").attr('src',this.href);
 	
-	// if connected to the nav sync websocket send a message to update other windows
-	if (wsnConnected) {
-		wsn.send(this.href);
-	}
-	
 	// close up the menu
 	$(this).parents('.sg-acc-panel').toggleClass('active');
 	$(this).parents('.sg-acc-panel').siblings('.sg-acc-handle').toggleClass('active');
@@ -316,3 +311,20 @@ var trackViewportWidth = true; // can toggle this feature on & off
 if (trackViewportWidth && (vpWidth = findValue("vpWidth"))) {
 	updateViewportWidth(vpWidth);
 }
+
+// watch the iframe source so that it can be sent back to everyone else.
+// based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
+function receiveIframeMessage(event) {
+		
+	// does the origin sending the message match the current host? if not dev/null the request
+	if (event.origin !== "http://"+window.location.host) {
+		return;
+	}
+	
+	// if connected to the nav sync websocket send a message to update other windows
+	if (wsnConnected) {
+		wsn.send(event.data);
+	}
+	
+}
+window.addEventListener("message", receiveIframeMessage, false);
