@@ -12,6 +12,9 @@
 
 class Generator extends Builder {
 	
+	/**
+	* Use the Builder __construct to gather the config variables
+	*/
 	public function __construct() {
 		
 		// construct the parent
@@ -19,6 +22,10 @@ class Generator extends Builder {
 		
 	}
 	
+	/**
+	* Main logic. Gathers data, gets partials, and generates patterns
+	* Also generates the main index file and styleguide
+	*/
 	public function generate() {
 		
 		// gather data
@@ -49,8 +56,10 @@ class Generator extends Builder {
 	}
 	
 	/**
-	 * Gathers nav item data
-	 */
+	* Gathers the partials for the nav drop down in Pattern Lab
+	*
+	* @return {Array}        the nav items organized by type
+	*/
 	private function gatherNavItems() {
 		
 		$b  = array(); // the array that will contain the items
@@ -68,14 +77,18 @@ class Generator extends Builder {
 		$sco = $sc;    // prepopulate the "old" check of the previous current class
 		$sno = $sn;
 		
+		// scan the pattern source directory
 		$entries = scandir(__DIR__."/".$this->sp);
 		foreach($entries as $entry) {
+			
+			// decide which files in the source directory might need to be ignored
 			if (!in_array($entry,$this->if)) {
 				$els = explode("-",$entry,3);
 				$cc  = $els[0];
 				$sc  = $els[1];
 				$n   = ucwords(str_replace("-"," ",$els[2]));
 				
+				// place items in their buckets. i'm already confused looking back at this. it works tho...
 				if ($cc == $cco) {
 					if ($sc == $sco) {
 						$b["buckets"][$cno]["navItems"][$sno]["navSubItems"][] = array(
@@ -121,17 +134,34 @@ class Generator extends Builder {
 		
 	}
 	
+	/**
+	* Renders the patterns in the source directory so they can be used in the default styleguide
+	*
+	* @return {Array}        an array of rendered partials
+	*/
 	private function gatherPartials() {
+		
 		$m = $this->mustacheInstance();
 		$p = array("partials" => array());
+		
+		// scan the pattern source directory
 		$entries = scandir(__DIR__."/".$this->sp);
 		foreach($entries as $entry) {
+			
+			// decide which files in the source directory might need to be ignored
 			if (!in_array($entry,$this->if) && ($entry[0] != "p")) {
 				if (file_exists(__DIR__."/".$this->sp.$entry."/pattern.mustache")) {
+					
+					// render the partial and stick it in the array
 					$p["partials"][] = $this->renderPattern($entry."/pattern.mustache",$m);
+					
 				}
 			}
+			
 		}
+		
 		return $p;
+		
 	}
+	
 }
