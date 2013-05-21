@@ -11,14 +11,17 @@
  *
  */
 
+// turn errors on or off for debugging purposes
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
 require(__DIR__.'/lib/SplClassLoader.php');
 
+// load wrench
 $classLoader = new SplClassLoader('Wrench',__DIR__.'/lib');
 $classLoader->register();
 
+// parse the main config for the content sync port
 if (!($config = @parse_ini_file(__DIR__."/../../config/config.ini"))) {
 	print "Missing the configuration file. Please build it using the Pattern Lab builder.\n";
 	exit;	
@@ -26,7 +29,9 @@ if (!($config = @parse_ini_file(__DIR__."/../../config/config.ini"))) {
 
 $port = ($config) ? trim($config['contentSyncPort']) : '8002';
 
+// start the content sync server
 $server = new \Wrench\Server('ws://0.0.0.0:'.$port.'/', array());
 
+// register the application & run it
 $server->registerApplication('contentsync', new \Wrench\Application\contentSyncBroadcasterApplication());
 $server->run();
