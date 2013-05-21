@@ -43,11 +43,7 @@ function connectNavSync() {
 		}
 		
 		wsn.onmessage = function (event) {
-		
-			if ($sgViewport.attr('src') != event.data) {
-				$sgViewport.attr('src',event.data+'?'+dataPrevious);
-			}
-		
+			$sgViewport.attr('src',event.data+'?'+dataPrevious);
 		}
 		
 		wsn.onerror = function (event) {
@@ -87,7 +83,7 @@ function connectContentSync() {
 		}
 		
 		wsc.onmessage = function (event) {
-		
+			
 			if (dc !== false) {
 				if (event.data != dataPrevious) {
 					$sgViewport.attr('src',$sgViewport.attr('src')+'?'+event.data);

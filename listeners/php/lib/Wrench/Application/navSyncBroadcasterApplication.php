@@ -38,8 +38,11 @@ class navSyncBroadcasterApplication extends Application {
 	public function onData($data, $client) {
 		preg_match("/http:\/\/[A-z0-9\-\.]{1,}\/(.*)/i",$data,$matches);
 		$data = "/".$matches[1];
+		$testId = $client->getId();
 		foreach ($this->clients as $sendto) {
-			$sendto->send($data);
+			if ($testId != $sendto->getId()) {
+				$sendto->send($data);
+			}
 		}
 		$this->currentAddress = $data;
 	}
