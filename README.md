@@ -64,7 +64,7 @@ If you want to test a pattern in multiple tabs or browsers without refreshing th
 
 Your browser should now be listening for nav sync events. The Pattern Lab toolbar should note that nav sync is now "on." Any other browser that visits the Pattern Lab site should now be redirected to the last visited pattern. When one browser views another pattern they should all be updated.
 
-If you want to link patterns together (for a demo or to flip between "page" patterns) you can use the following format to have the builder put in the correct path:
+If you want to link patterns together (for a demo or to flip between "page" patterns) you can use the following format to have Pattern Lab put in the correct path:
 
     <a href="{{ link.full-pattern-name }}">Link Text</a>
 
