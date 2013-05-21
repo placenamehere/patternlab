@@ -145,6 +145,8 @@
 	
 	//Resize the viewport
 	function sizeiframe(size) {
+		$('#sg-gen-container').addClass("vp-animate");
+		$('#sg-viewport').addClass("vp-animate");
 		$('#sg-gen-container').width(size+14);
 		$('#sg-viewport').width(size);
 		updateSizeReading(size);
@@ -265,6 +267,9 @@ $('.sg-nav a').not('.sg-acc-handle').on("click", function(e){
 //   2. make a hidden div visible so that it can track mouse movements and make sure the pointer doesn't get lost in the iframe
 //   3. on "mousemove" calculate the math, save the results to a cookie, and update the viewport
 $('#sg-rightpull').mousedown(function(event) {
+	
+	$('#sg-gen-container').removeClass("vp-animate");
+	$('#sg-viewport').removeClass("vp-animate");
 	
 	// capture default data
 	var origClientX = event.clientX;
