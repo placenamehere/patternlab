@@ -20,7 +20,15 @@ use Wrench\Application\NamedApplication;
 class contentSyncBroadcasterApplication extends Application {
 	
 	protected $clients          = array();
-	protected $lastTimestamp    = null;
+	protected $savedTimestamp   = null;
+	protected $c                = false;
+	
+	/**
+	* Set the saved timestamp
+	*/
+	public function __construct() {
+		$this->savedTimestamp = file_get_contents(__DIR__."/../../../../../public/latest-change.txt");
+	}
 	
 	/**
 	* When a client connects add it to the list of connected clients
@@ -49,13 +57,15 @@ class contentSyncBroadcasterApplication extends Application {
 	* Sends out a message once a second to all connected clients containing the contents of latest-change.txt
 	*/
 	public function onUpdate() {
-		// limit updates to once per second
-		if(time() > $this->lastTimestamp) {
+		
+		$readTimestamp = file_get_contents(__DIR__."/../../../../../public/latest-change.txt");
+		if ($readTimestamp != $this->savedTimestamp) {
 			foreach ($this->clients as $sendto) {
-				$sendto->send(file_get_contents(__DIR__."/../../../../../public/latest-change.txt"));
+				$sendto->send($readTimestamp);
 			}
-			$this->lastTimestamp = time();
+			$this->savedTimestamp = $readTimestamp;
 		}
+		
 	}
 
 }
