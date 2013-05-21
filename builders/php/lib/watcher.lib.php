@@ -17,7 +17,7 @@
 class Watcher extends Builder {
 	
 	/**
-	* Start up the watcher
+	* Use the Builder __construct to gather the config variables
 	*/
 	public function __construct() {
 		
@@ -26,6 +26,9 @@ class Watcher extends Builder {
 		
 	}
 	
+	/**
+	* Watch the source directory for any changes to existing files. Will run forever if given the chance
+	*/
 	public function watch() {
 		
 		$c = false;          // have the files been added to the overall object?
@@ -51,9 +54,14 @@ class Watcher extends Builder {
 						}*/
 					}
 					
+					// figure out the md5 hash of a file so we can track changes
+					// runs well on a solid state drive. no idea if it thrashes regular disks
 					$ph = $this->md5File(__DIR__.$this->sp.$entry."/pattern.mustache");
 					$dh = $this->md5File(__DIR__.$this->sp.$entry."/data.json");
 					
+					// if the first time through just add the hash
+					// after that check the hash to the recorded hash. if it has, render & move the *entire* project (shakes fist at partials)
+					// update the change time so that content sync will work properly
 					if (!$c) {
 						$o->$entry->ph = $ph;
 						$o->$entry->dh = $dh;
@@ -88,6 +96,8 @@ class Watcher extends Builder {
 					$o->$wf = new stdClass();
 				}
 				
+				// md5 hash the user-supplied filenames, if it's changed just move the single file
+				// update the change time so that content sync will work properly
 				$fh = $this->md5File(__DIR__."/../../../source".$wf);
 				if (!$c) {
 					$o->$wf->fh = $fh;
@@ -103,7 +113,8 @@ class Watcher extends Builder {
 				
 			}
 			
-			// check the main data.json file for changes
+			// check the main data.json file for changes, if it's changed render & move the *entire* project
+			// update the change time so that content sync will work properly
 			$dh = $this->md5File(__DIR__."/../../../source/data/data.json");
 			if (!$c) {
 				$o->dh = $dh;
@@ -122,15 +133,34 @@ class Watcher extends Builder {
 		
 	}
 	
+	/**
+	* Converts a given file into an md5 string
+	* @param  {String}       file name to be hashed
+	*
+	* @return {String}       md5 string of the file or an empty string if the file wasn't found
+	*/
 	private function md5File($f) {
 		$r = file_exists($f) ? md5_file($f) : '';
 		return $r;
 	}
 	
+	/**
+	* Copies a file from the given source path to the given public path
+	* @param  {String}       the source pattern name
+	* @param  {String}       the public pattern name
+	*
+	* @return {String}       copied file
+	*/
 	private function moveFile($s,$p) {
 		copy(__DIR__."/../../../source".$s,__DIR__."/../../../public".$p);
 	}
 	
+	/**
+	* Write out the time tracking file so the content sync service will work. A holdover
+	* from how I put together the original AJAX polling set-up.
+	*
+	* @return {String}       file containing a timestamp
+	*/
 	private function updateChangeTime() {
 		file_put_contents(__DIR__."/../../../public/latest-change.txt",time());
 	}
