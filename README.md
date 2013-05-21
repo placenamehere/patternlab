@@ -10,7 +10,7 @@ After downloading Pattern Lab you can do the following to set it up:
 
 ### 1. Configure Apache
 
-Most of the features in Pattern Lab require it to be running on a web server like Apache. The ideal set-up is to run Apache and Pattern Lab locally on your computer. If you don't know how to set-up Apache there are directions for Mac OS X in `extras/apache/`. 
+Most of the features in Pattern Lab require it to be running on a web server like Apache. The ideal set-up is to run Apache and Pattern Lab locally on your computer. If you don't know how to set-up Apache there are directions for Mac OS X in `extras/apache/`. At the very least, the `DocumentRoot` for the site should be set-to `/path/to/patternlab/public/`.
 
 ### 2. Configure & Pre-Build Pattern Lab
 
