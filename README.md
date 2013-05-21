@@ -64,6 +64,14 @@ If you want to test a pattern in multiple tabs or browsers without refreshing th
 
 Your browser should now be listening for nav sync events. The Pattern Lab toolbar should note that nav sync is now "on." Any other browser that visits the Pattern Lab site should now be redirected to the last visited pattern. When one browser views another pattern they should all be updated.
 
+If you want to link patterns together (for a demo or to flip between "page" patterns) you can use the following format to have the builder put in the correct path:
+
+    <a href="{{ link.full-pattern-name }}">Link Text</a>
+
+For example, to link to the block hero molecule pattern you would use:
+
+    <a href="{{ link.m-blocks-block-hero }}">Link Text</a>
+
 If you want to view patterns on your mobile device simply do the following:
 
 1. Make sure your mobile device and computer are on the same WiFi network
@@ -129,7 +137,7 @@ The default install of Pattern Lab uses a number of PHP libraries. They are:
 Ok, so these are the things I want to work on cleaning up:
 
 * <del>I've done a simple tweak where choosing an option updates the iframe instead of reloading the page. I want to get the accordion working properly and, more importantly, I want changes made to patterns, data & styles reflected in an auto-update to the existing window. So you could "update a pattern," system generates new mark-up, the viewer re-loads the iframe and updates the pattern nav w/ a helpful "we've been updated text/color change." Hopefully this would make for a clean, iterative process.</del>
-* add a way to easily reference other templates as part of a pattern. this would add the "click-through" feature.
+* <del>add a way to easily reference other templates as part of a pattern. this would add the "click-through" feature.</del>
 * not sure about the versioning... I can see a method for it but it makes PHP an absolute requirement in the short-term.
 * <del>that said, i'd also love to make this multi-device capable (e.g. update pattern on a desktop and see it show up across multiple devices). not sure how ish works in that context but it'd be cool to play around with. this would also require a server-side language choice... i think.</del>
 * this repo has to be cleaned & moved to a github organization. you have at least one image which shouldn't be here and, since it's under version control, it'll always be here even in a delete.
