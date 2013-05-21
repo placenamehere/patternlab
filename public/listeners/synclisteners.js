@@ -47,7 +47,11 @@ function connectNavSync() {
 		
 		// when receiving a message from WebSocket update the iframe source
 		wsn.onmessage = function (event) {
-			$sgViewport.attr('src',event.data+'?'+dataPrevious);
+			var vpLocation  = document.getElementById('sg-viewport').contentWindow.location.href;
+			var mLocation   = "http://"+window.location.host+event.data;
+			if (vpLocation != mLocation) {
+				$sgViewport.attr('src',mLocation);
+			}
 		}
 		
 		// when there's an error update the pattern lab nav bar
@@ -91,20 +95,10 @@ function connectContentSync() {
 			$('#contentSyncButton').html('Content Sync Disabled');
 		}
 		
-		// when receiving a message from WebSocket check to see if the payload is different than previous
-		// if so reload the iframe
+		// when receiving a message from WebSocket reload the current frame adding the received timestamp
+		// as a request var to, hopefully, bust caches... cachi(?)
 		wsc.onmessage = function (event) {
-			
-			if (dc !== false) {
-				if (event.data != dataPrevious) {
-					$sgViewport.attr('src',$sgViewport.attr('src')+'?'+event.data);
-					dataPrevious = event.data;
-				}
-			} else {
-				dc = true;
-				dataPrevious = event.data;
-			}
-		
+			$sgViewport.attr('src',$sgViewport.attr('src')+'?'+event.data);
 		}
 		
 		// when there's an error update the pattern lab nav bar
