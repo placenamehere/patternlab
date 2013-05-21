@@ -35,6 +35,7 @@ function connectNavSync() {
 		}
 		
 		wsn.onclose = function (event) {
+			wsnConnected = false;
 			$('#navSyncButton').attr("data-state","off");
 			if ($('#navSyncButton').hasClass("connected")) {
 				$('#navSyncButton').removeClass("connected");
@@ -47,6 +48,7 @@ function connectNavSync() {
 		}
 		
 		wsn.onerror = function (event) {
+			wsnConnected = false;
 			$('#navSyncButton').attr("data-state","off");
 			if ($('#navSyncButton').hasClass("connected")) {
 				$('#navSyncButton').removeClass("connected");
@@ -75,6 +77,7 @@ function connectContentSync() {
 		}
 		
 		wsc.onclose = function (event) {
+			wscConnected = false;
 			$('#contentSyncButton').attr("data-state","off");
 			if ($('#contentSyncButton').hasClass("connected")) {
 				$('#contentSyncButton').removeClass("connected");
@@ -97,7 +100,7 @@ function connectContentSync() {
 		}
 	
 		wsc.onerror = function (event) {
-			console.log("error");
+			wscConnected = false;
 			$('#contentSyncButton').attr("data-state","off");
 			if ($('#contentSyncButton').hasClass("connected")) {
 				$('#contentSyncButton').removeClass("connected");
