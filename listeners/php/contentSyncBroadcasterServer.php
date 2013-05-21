@@ -20,7 +20,8 @@ $classLoader = new SplClassLoader('Wrench',__DIR__.'/lib');
 $classLoader->register();
 
 if (!($config = @parse_ini_file(__DIR__."/../../config/config.ini"))) {
-	$config = @parse_ini_file(__DIR__."/../../config/config.ini");	
+	print "Missing the configuration file. Please build it using the Pattern Lab builder.\n";
+	exit;	
 }
 
 $port = ($config) ? trim($config['contentSyncPort']) : '8002';
