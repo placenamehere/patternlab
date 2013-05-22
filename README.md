@@ -47,7 +47,7 @@ By default, Pattern Lab will monitor the `pattern.mustache` and `data.json` file
 Rather than manually refreshing your browser you can have Pattern Lab auto-reload your browser window for you. To turn this feature on do the following:
 
 1. Open `scripts/php/`
-2. Double-click `startContentSyncServer.command`
+2. Double-click `startAutoloadServer.command`
 3. Refresh the Pattern Lab site
 
 Your browser should now be listening for auto-reload events. The Pattern Lab toolbar should note that content sync is now "on."
@@ -59,7 +59,7 @@ Your browser should now be listening for auto-reload events. The Pattern Lab too
 If you want to test a pattern in multiple tabs or browsers without refreshing them all or having to navigate to new patterns in each simply use Pattern Lab's page follow feature. Any browser or tab should control all of the browsers or tabs. To turn this feature on do the following:
 
 1. Open `scripts/php`
-2. Double-click `startNavSyncServer.command`
+2. Double-click `startPageFollowServer.command`
 3. Refresh the Pattern Lab site
 
 Your browser should now be listening for page follow events. The Pattern Lab toolbar should note that page follow is now "on." Any other browser that visits the Pattern Lab site should now be redirected to the last visited pattern. When one browser views another pattern they should all be updated.
