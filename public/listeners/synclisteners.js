@@ -25,6 +25,7 @@ function connectNavSync() {
 
 	if ('WebSocket' in window && window.WebSocket.CLOSING === 2) {
 		
+		var navSyncCopy = "Page Follow";
 		wsn = new WebSocket("ws://"+host+":"+navSyncPort+"/navsync");
 		
 		// when trying to open a connection to WebSocket update the pattern lab nav bar
@@ -32,7 +33,7 @@ function connectNavSync() {
 			wsnConnected = true;
 			$('#navSyncButton').attr("data-state","on");
 			$('#navSyncButton').addClass("connected");
-			$('#navSyncButton').html('Nav Sync On');
+			$('#navSyncButton').html(navSyncCopy+' On');
 		}
 		
 		// when closing a connection (or failing to make a connection) to WebSocket update the pattern lab nav bar
@@ -42,7 +43,7 @@ function connectNavSync() {
 			if ($('#navSyncButton').hasClass("connected")) {
 				$('#navSyncButton').removeClass("connected");
 			}
-			$('#navSyncButton').html('Nav Sync Disabled');
+			$('#navSyncButton').html(navSyncCopy+' Disabled');
 		}
 		
 		// when receiving a message from WebSocket update the iframe source
@@ -61,7 +62,7 @@ function connectNavSync() {
 			if ($('#navSyncButton').hasClass("connected")) {
 				$('#navSyncButton').removeClass("connected");
 			}
-			$('#navSyncButton').html('Nav Sync Disabled');
+			$('#navSyncButton').html(navSyncCopy+' Disabled');
 		}
 		
 	}
@@ -75,6 +76,8 @@ function connectContentSync() {
 	if ('WebSocket' in window && window.WebSocket.CLOSING === 2) {
 		
 		var dc = true;
+		var contentSyncCopy = "Auto-reload";
+		
 		wsc = new WebSocket("ws://"+host+":"+contentSyncPort+"/contentsync");
 		
 		// when trying to open a connection to WebSocket update the pattern lab nav bar
@@ -82,7 +85,7 @@ function connectContentSync() {
 			wscConnected = true;
 			$('#contentSyncButton').attr("data-state","on");
 			$('#contentSyncButton').addClass("connected");
-			$('#contentSyncButton').html('Content Sync On');
+			$('#contentSyncButton').html(contentSyncCopy+' On');
 		}
 		
 		// when closing a connection (or failing to make a connection) to WebSocket update the pattern lab nav bar
@@ -92,7 +95,7 @@ function connectContentSync() {
 			if ($('#contentSyncButton').hasClass("connected")) {
 				$('#contentSyncButton').removeClass("connected");
 			}
-			$('#contentSyncButton').html('Content Sync Disabled');
+			$('#contentSyncButton').html(contentSyncCopy+' Disabled');
 		}
 		
 		// when receiving a message from WebSocket reload the current frame adding the received timestamp
@@ -108,7 +111,7 @@ function connectContentSync() {
 			if ($('#contentSyncButton').hasClass("connected")) {
 				$('#contentSyncButton').removeClass("connected");
 			}
-			$('#contentSyncButton').html('Content Sync Disabled');
+			$('#contentSyncButton').html(contentSyncCopy+' Disabled');
 		}
 		
 	}
