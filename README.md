@@ -54,15 +54,15 @@ Your browser should now be listening for auto-reload events. The Pattern Lab too
 
 **Please note:** If you find that content sync is not working properly please make sure your browser [supports WebSockets](http://caniuse.com/websockets).
 
-### Sync Pattern Browsing Across Multiple Tabs or Browsers
+### Sync Pattern Browsing Across Multiple Tabs or Browsers (aka Page Follow)
 
-If you want to test a pattern in multiple tabs or browsers without refreshing them all or having to navigate to new patterns in each simply use Pattern Lab's navigation sync feature. Any browser or tab should control all of the browsers or tabs. To turn this feature on do the following:
+If you want to test a pattern in multiple tabs or browsers without refreshing them all or having to navigate to new patterns in each simply use Pattern Lab's page follow feature. Any browser or tab should control all of the browsers or tabs. To turn this feature on do the following:
 
 1. Open `scripts/php`
 2. Double-click `startNavSyncServer.command`
 3. Refresh the Pattern Lab site
 
-Your browser should now be listening for nav sync events. The Pattern Lab toolbar should note that nav sync is now "on." Any other browser that visits the Pattern Lab site should now be redirected to the last visited pattern. When one browser views another pattern they should all be updated.
+Your browser should now be listening for page follow events. The Pattern Lab toolbar should note that page follow is now "on." Any other browser that visits the Pattern Lab site should now be redirected to the last visited pattern. When one browser views another pattern they should all be updated.
 
 If you want to link patterns together (for a demo or to flip between "page" patterns) you can use the following format to have Pattern Lab put in the correct path:
 
