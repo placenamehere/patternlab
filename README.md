@@ -47,7 +47,7 @@ By default, Pattern Lab will monitor the `pattern.mustache` and `data.json` file
 Rather than manually refreshing your browser you can have Pattern Lab auto-reload your browser window for you. To turn this feature on do the following:
 
 1. Open `scripts/php/`
-2. Double-click `startAutoloadServer.command`
+2. Double-click `startAutoReloadServer.command`
 3. Refresh the Pattern Lab site
 
 Your browser should now be listening for auto-reload events. The Pattern Lab toolbar should note that content sync is now "on."
