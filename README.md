@@ -1,8 +1,14 @@
 # Pattern Lab
 
-## About
+## About Pattern Lab - The Idea
 
 Brad had a crazy idea.
+
+## About Pattern Lab - The Tech
+
+From a technical perspective, Pattern Lab is, at its core, a static site generator. When generating a site the Pattern Lab Builder takes material from the `source/` directory (e.g. templates & data), compiles them, and writes them out to the `public/` directory. The Builder auto-generates the drop-down nav, the "View All" links & content, as well as the Style Guide. In "watch" mode the Builder will also monitor the main styles file (or any files you list in the config) and move it as appropriate.
+
+By making it a static site generator, Pattern Lab strongly separates views/data from build logic from presentation. So anyone can come in and build a Builder, the middleware, in their language of choice or, hell, rewrite it (and move some stuff around) and try to make it all front-end only. The compiled presentation bits can be moved anywhere (e.g. FTP to a public website) without concern for back-end tech.
 
 ## Installation
 
@@ -23,9 +29,26 @@ To generate your site do the following:
 
 The site should now be generated and available. Simply follow the "Regular Use" steps to finish the set-up process.
 
-## Regular Use
+## Regular Use Workflow
 
-Their are several options you can enable when using Pattern Lab on a regular basis.
+**THIS IS DAVE'S EXPECTED USE CASE AND IT CAN BE MORE NUANCED THAN THIS**
+
+A fairly normal workflow with Pattern Lab will follow this pattern:
+
+1. You open Pattern Lab to edit patterns
+2. Double-click on scripts/php/watchForChanges.command to generate the site and have the Builder watch for any future changes and auto-compile them
+3. Make your changes in `source/patterns`
+4. Refresh your browser
+
+If you want to add JavaScript, images or CSS you can place them in `public/`.
+
+## Pattern Lab Extended Options
+
+Their are several options you can enable when using Pattern Lab on a regular basis to smooth out your workflow. 
+
+1. Patterns can be automatically regenerated after you save them, 
+2. Your browser can automatically reload when, again, files are automatically saved, and, 
+3. When testing, you can set-up browsers to follow the browsing history of another.
 
 ### Watch for Changes & Auto-Regenerate Patterns
 
@@ -50,7 +73,7 @@ Rather than manually refreshing your browser you can have Pattern Lab auto-reloa
 2. Double-click `startAutoReloadServer.command`
 3. Refresh the Pattern Lab site
 
-Your browser should now be listening for auto-reload events. The Pattern Lab toolbar should note that content sync is now "on."
+Your browser should now be listening for auto-reload events. The Pattern Lab toolbar should note that content sync is now "on." You *must* be have enabled the "Watch for Changes" feature previously discussed for this feature to work.
 
 **Please note:** If you find that content sync is not working properly please make sure your browser [supports WebSockets](http://caniuse.com/websockets).
 
@@ -113,7 +136,9 @@ To use another pattern in another, for example to create a molecule from several
 
 ### Adding/Modifying Static Assets for a Pattern
 
-To add static assets like a special CSS file that's included by your pattern or an image that's referenced by a pattern simply put the asset in the appropriate directory in `public/`. For example, JavaScript should go in `public/js/` and CSS should go in `public/css/`. Pattern Lab comes with several standard libraries by default.
+To add static assets like a special CSS file that's included by your pattern or an image that's referenced by a pattern simply put the asset in the appropriate directory in `public/`. For example, JavaScript should go in `public/js/` and images should go in `public/images/`. 
+
+**Please note:** In the case of CSS you may want to store those files in the `source/` directory and track them with the Pattern Lab's Builder Watch feature. This way, as you make changes to them your browser can auto-reload. To add files to be tracked by the builder simply edit `config/config.ini`.
 
 ### Modifying Data for a Pattern
 
