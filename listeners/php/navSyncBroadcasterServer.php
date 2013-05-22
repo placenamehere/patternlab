@@ -34,4 +34,9 @@ $server = new \Wrench\Server('ws://0.0.0.0:'.$port.'/', array());
 
 // register the application & run it
 $server->registerApplication('navsync', new \Wrench\Application\navSyncBroadcasterApplication());
+
+print "\n";
+print "Page Follow Server Started...\n";
+print "Use CTRL+C to stop this service...\n";
+
 $server->run();
