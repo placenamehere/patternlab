@@ -7,3 +7,5 @@ public/patterns/o*
 public/patterns/p*
 config.ini
 latest-change.txt
+/public/styleguide/js/styleguide-ck.js
+/public/listeners/synclisteners-ck.js
