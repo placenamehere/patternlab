@@ -18,7 +18,7 @@ By default, a number of important pages, including the main page, *aren't* built
 
 To generate your site do the following:
 
-1. Open `scripts/php`
+1. Open `scripts/php/`
 2. Double-click `generateSite.command`
 
 The site should now be generated and available. Simply follow the "Regular Use" steps to finish the set-up process.
@@ -33,7 +33,7 @@ Once you've generated the site Pattern Lab can watch for changes to patterns or 
 
 To set-up the watch do the following:
 
-1. Open `scripts/php`
+1. Open `scripts/php/`
 2. Double-click `watchForChanges.command`
 
 To make Pattern Lab stop watching your files just press`CTRL+C`. 
@@ -46,7 +46,7 @@ By default, Pattern Lab will monitor the `pattern.mustache` and `data.json` file
 
 Rather than manually refreshing your browser you can have Pattern Lab auto-reload your browser window for you. To turn this feature on do the following:
 
-1. Open `scripts/php`
+1. Open `scripts/php/`
 2. Double-click `startContentSyncServer.command`
 3. Refresh the Pattern Lab site
 
