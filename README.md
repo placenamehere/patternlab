@@ -58,7 +58,7 @@ Your browser should now be listening for auto-reload events. The Pattern Lab too
 
 If you want to test a pattern in multiple tabs or browsers without refreshing them all or having to navigate to new patterns in each simply use Pattern Lab's page follow feature. Any browser or tab should control all of the browsers or tabs. To turn this feature on do the following:
 
-1. Open `scripts/php`
+1. Open `scripts/php/`
 2. Double-click `startPageFollowServer.command`
 3. Refresh the Pattern Lab site
 
