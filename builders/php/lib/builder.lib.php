@@ -162,6 +162,188 @@ class Builder {
 	}
 	
 	/**
+	* Renders the view all pages
+	*
+	* @return {String}        writes out each view all page
+	*/
+	protected function generateViewAllPages() {
+		
+		// silly to do this again but makes sense in light of the fact that watcher needs to use this function too
+		$nd = $this->gatherNavItems();
+		
+		// add view all to each list
+		$i = 0; $k = 0;
+		foreach ($nd['buckets'] as $bucket) {
+			
+			foreach ($bucket["navItems"] as $navItem) {
+				
+				foreach ($navItem["navSubItems"] as $subItem) {
+					if ($subItem["patternName"] == "View All") {
+						
+						// get all the rendered partials that match
+						$sid = $this->gatherPartialsByMatch($subItem["patternPath"]);
+						
+						// render the viewall template
+						$e = new Mustache_Engine(array(
+							'loader' => new Mustache_Loader_FilesystemLoader(__DIR__."/../../../source/templates/"),
+							'partials_loader' => new Mustache_Loader_FilesystemLoader(__DIR__."/../../../source/templates/partials/"),
+						));
+						$v = $e->render('viewall',$sid);
+						
+						// if the pattern directory doesn't exist create it
+						if (!is_dir(__DIR__.$this->pp.$subItem["patternPath"])) {
+							mkdir(__DIR__.$this->pp.$subItem["patternPath"]);
+							//chmod($this->pp.$entry,$this->dp);
+							file_put_contents(__DIR__.$this->pp.$subItem["patternPath"]."/pattern.html",$v);
+							//chmod($this->pp.$entry."/pattern.html",$this->fp);
+						} else {
+							file_put_contents(__DIR__.$this->pp.$subItem["patternPath"]."/pattern.html",$v);
+						}
+					}
+				}
+				
+			}
+			
+			$i++;
+			$k = 0;
+			
+		}
+		
+	}
+	
+	/**
+	* Gathers the partials for the nav drop down in Pattern Lab
+	*
+	* @return {Array}        the nav items organized by type
+	*/
+	protected function gatherNavItems() {
+		
+		$b  = array(); // the array that will contain the items
+		$t  = array(); // the array that will contain the english names for the types of buckets
+		$cc = "";      // current class of the object we're looking at (e.g. atom)
+		$cn = 0;       // track the number for the array
+		$sc = "";      // current sub-class of the object we're looking at (e.g. block)
+		$sn = 0;       // track the number for the array
+		$n  = "";      // the name of the final object
+		
+		$b["buckets"] = array();
+		$t   = array("a" => "Atoms", "m" => "Molecules", "o" => "Organisms", "p" => "Pages");
+		$cco = $cc;    // prepopulate the "old" check of the previous current class
+		$cno = $cn;    // prepopulate the "old" check of the previous current class
+		$sco = $sc;    // prepopulate the "old" check of the previous current class
+		$sno = $sn;
+		
+		// scan the pattern source directory
+		$entries = scandir(__DIR__."/".$this->sp);
+		foreach($entries as $entry) {
+			
+			// decide which files in the source directory might need to be ignored
+			if (!in_array($entry,$this->if)) {
+				$els = explode("-",$entry,3);
+				$cc  = $els[0];
+				$sc  = $els[1];
+				$n   = ucwords(str_replace("-"," ",$els[2]));
+				
+				// place items in their buckets. i'm already confused looking back at this. it works tho...
+				if ($cc == $cco) {
+					if ($sc == $sco) {
+						$b["buckets"][$cno]["navItems"][$sno]["navSubItems"][] = array(
+																				"patternPath" => $entry,
+																				"patternName"  => $n
+																			   );
+					} else {
+						$sn++;
+						$b["buckets"][$cno]["navItems"][$sn] = array(
+																"sectionNameLC" => $sc,
+																"sectionNameUC" => ucwords($sc),
+																"navSubItems" => array(
+																	array(
+																		"patternPath" => $entry,
+																		"patternName"  => $n
+															  )));
+						$sco = $sc;
+						$sno = $sn;
+					}
+				} else {
+					$b["buckets"][$cn] = array(
+											   "bucketNameLC" => strtolower($t[$cc]),
+											   "bucketNameUC" => $t[$cc], 
+											   "navItems" => array( 
+														array(
+														"sectionNameLC" => $sc,
+														"sectionNameUC" => ucwords($sc),
+														"navSubItems" => array(
+															array(
+																"patternPath" => $entry,
+																"patternName"  => $n
+											    )))));
+					$cco = $cc;
+					$sco = $sc;
+					$cno = $cn;
+					$cn++;
+					$sn = 0;
+				}
+			}
+		}
+		
+		// add view all to each list
+		$i = 0; $k = 0;
+		foreach ($b['buckets'] as $bucket) {
+			
+			if ($bucket["bucketNameLC"] != "pages") {
+				foreach ($bucket["navItems"] as $navItem) {
+					
+					$subItemsCount = count($navItem["navSubItems"]);
+					$pathItems = explode("-",$navItem["navSubItems"][0]["patternPath"]);
+					$viewAll = array("patternPath" => $pathItems[0]."-".$pathItems[1], "patternName" => "View All");
+					
+					$b['buckets'][$i]["navItems"][$k]["navSubItems"][$subItemsCount] = $viewAll;
+					
+					$k++;
+				}
+				
+			}
+			
+			$i++;
+			$k = 0;
+		}
+		
+		return $b;
+		
+	}
+	
+	/**
+	* Renders the patterns that match a given string so they can be used in the view all styleguides
+	* It's duplicative but I'm tired
+	*
+	* @return {Array}        an array of rendered partials that match the given path
+	*/
+	protected function gatherPartialsByMatch($pathMatch) {
+		
+		$m = $this->mustacheInstance();
+		$p = array("partials" => array());
+		
+		// scan the pattern source directory
+		$entries = scandir(__DIR__."/".$this->sp);
+		foreach($entries as $entry) {
+			
+			// decide which files in the source directory might need to be ignored
+			if (!in_array($entry,$this->if) && ($entry[0] != "p") && strstr($entry,$pathMatch)) {
+				if (file_exists(__DIR__."/".$this->sp.$entry."/pattern.mustache")) {
+					
+					// render the partial and stick it in the array
+					$p["partials"][] = $this->renderPattern($entry."/pattern.mustache",$m);
+					
+				}
+			}
+			
+		}
+		
+		return $p;
+		
+	}
+	
+	/**
 	* Print out the data var. For debugging purposes
 	*
 	* @return {String}       the formatted version of the d object

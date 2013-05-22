@@ -79,6 +79,7 @@ class Watcher extends Builder {
 						if ($t) {
 							$this->gatherData();
 							$this->renderAndMove();
+							$this->generateViewAllPages();
 							$this->updateChangeTime();
 							$t = false;
 						}
@@ -123,6 +124,7 @@ class Watcher extends Builder {
 					$o->dh = $dh;
 					$this->gatherData();
 					$this->renderAndMove();
+					$this->generateViewAllPages();
 					$this->updateChangeTime();
 					print "data/data.json changed...\n";
 				};

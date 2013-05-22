@@ -42,6 +42,10 @@ class Generator extends Builder {
 		// grab the partials into a data object for the style guide
 		$sd = $this->gatherPartials();
 		
+		// render the "view all" pages
+		$this->generateViewAllPages();
+		
+		// render the index page and the style guide
 		$e = new Mustache_Engine(array(
 			'loader' => new Mustache_Loader_FilesystemLoader(__DIR__."/../../../source/templates/"),
 			'partials_loader' => new Mustache_Loader_FilesystemLoader(__DIR__."/../../../source/templates/partials/"),
@@ -52,85 +56,6 @@ class Generator extends Builder {
 		$s = $e->render('styleguide',$sd);
 		file_put_contents(__DIR__."/../../../public/styleguide.html",$s);
 		//chmod('../../public/index.html',$this->fp);
-		
-	}
-	
-	/**
-	* Gathers the partials for the nav drop down in Pattern Lab
-	*
-	* @return {Array}        the nav items organized by type
-	*/
-	private function gatherNavItems() {
-		
-		$b  = array(); // the array that will contain the items
-		$t  = array(); // the array that will contain the english names for the types of buckets
-		$cc = "";      // current class of the object we're looking at (e.g. atom)
-		$cn = 0;       // track the number for the array
-		$sc = "";      // current sub-class of the object we're looking at (e.g. block)
-		$sn = 0;       // track the number for the array
-		$n  = "";      // the name of the final object
-		
-		$b["buckets"] = array();
-		$t   = array("a" => "Atoms", "m" => "Molecules", "o" => "Organisms", "p" => "Pages");
-		$cco = $cc;    // prepopulate the "old" check of the previous current class
-		$cno = $cn;    // prepopulate the "old" check of the previous current class
-		$sco = $sc;    // prepopulate the "old" check of the previous current class
-		$sno = $sn;
-		
-		// scan the pattern source directory
-		$entries = scandir(__DIR__."/".$this->sp);
-		foreach($entries as $entry) {
-			
-			// decide which files in the source directory might need to be ignored
-			if (!in_array($entry,$this->if)) {
-				$els = explode("-",$entry,3);
-				$cc  = $els[0];
-				$sc  = $els[1];
-				$n   = ucwords(str_replace("-"," ",$els[2]));
-				
-				// place items in their buckets. i'm already confused looking back at this. it works tho...
-				if ($cc == $cco) {
-					if ($sc == $sco) {
-						$b["buckets"][$cno]["navItems"][$sno]["navSubItems"][] = array(
-																				"patternPath" => $entry,
-																				"patternName"  => $n
-																			   );
-					} else {
-						$sn++;
-						$b["buckets"][$cno]["navItems"][$sn] = array(
-																"sectionNameLC" => $sc,
-																"sectionNameUC" => ucwords($sc),
-																"navSubItems" => array(
-																	array(
-																		"patternPath" => $entry,
-																		"patternName"  => $n
-															  )));
-						$sco = $sc;
-						$sno = $sn;
-					}
-				} else {
-					$b["buckets"][$cn] = array(
-											   "bucketNameLC" => strtolower($t[$cc]),
-											   "bucketNameUC" => $t[$cc], 
-											   "navItems" => array( 
-														array(
-														"sectionNameLC" => $sc,
-														"sectionNameUC" => ucwords($sc),
-														"navSubItems" => array(
-															array(
-																"patternPath" => $entry,
-																"patternName"  => $n
-											    )))));
-					$cco = $cc;
-					$sco = $sc;
-					$cno = $cn;
-					$cn++;
-					$sn = 0;
-				}
-			}
-		}
-		
-		return $b;
 		
 	}
 	
@@ -163,5 +88,7 @@ class Generator extends Builder {
 		return $p;
 		
 	}
+	
+
 	
 }
