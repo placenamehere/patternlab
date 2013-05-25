@@ -1,6 +1,11 @@
 <?php
 	include_once('functions.php');
-	$path = isset($_GET["url"]) ? "view.php/?url=".$_GET["url"] : "styleguide.php";
+	if (isset($_GET['viewall']) && isset($_GET["url"])) {
+		$path = "view-all.php?url=".$_GET["url"];
+	} else {
+		$path = isset($_GET["url"]) ? "view.php/?url=".$_GET["url"] : "styleguide.php";
+	}
+	
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +54,7 @@
 				            }
 			            	
 			            	if(is_dir($dir.'/'.$ff)){ /*If main section */
+								echo('<li><a href="?viewall=true&url='.$pathToFile.'/'.$ff.'" class="sg-pop">View All</a></li>');
 			            		echo '</ol></li>';
 			            	}
 			            } 

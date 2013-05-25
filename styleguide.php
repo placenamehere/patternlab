@@ -48,7 +48,7 @@ function displayPatterns($dir,$exclude){
 	            } 
 	            
 	            if(is_dir($dir.'/'.$ff)) {
-	            	if($ff!='03-Pages') {
+	            	if($ff!='03-Templates') {
 	            		displayPatterns($dir.'/'.$ff,$exclude);
 	            	}
 	            }

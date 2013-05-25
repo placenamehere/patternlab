@@ -30,8 +30,8 @@ function inc($type,$name) {
 		$filePath = $filePath.'01-Molecules';
 	} elseif($type=='organism') {
 		$filePath = $filePath.'02-Organisms';
-	} elseif($type=='page') {
-		$filePath = $filePath.'03-Pages';
+	} elseif($type=='templates') {
+		$filePath = $filePath.'03-Templates';
 	} else {
 		$filePath = $filePath;
 	}
