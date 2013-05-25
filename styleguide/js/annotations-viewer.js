@@ -32,7 +32,7 @@
 	};
 	
 	function commentContainerInit() {
-			$('<div id="comment-container"></div>').html('<a href="#" id="close-comments">Close</a><h2 id="comment-title">Annotation Title</h2><div id="comment-text">Here is some comment text</div>').appendTo('body').css('bottom',-$(this).outerHeight());
+			$('<div id="comment-container" style="display: none;"></div>').html('<a href="#" id="close-comments">Close</a><h2 id="comment-title">Annotation Title</h2><div id="comment-text">Here is some comment text</div>').appendTo('body').css('bottom',-$(this).outerHeight());
 			
 			if(sw < breakpoint) {
 				$('#comment-container').hide();
