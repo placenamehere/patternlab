@@ -2,10 +2,13 @@
 
 	var commentsActive = false,
 		sw = document.documentElement.clientWidth,
-		breakpoint = 650; 
+		breakpoint = 650;
+		
+	console.log(sw); 
 	
 	$(document).ready(function() {
-		$('body').addClass('comments-ready').append('<div id="comment-link"><a href="#">Annotations: <strong>OFF</strong></a></div>').delegate('#comment-link', 'click', function(){
+		$('body').addClass('comments-ready');
+		$('#sg-t-annotations').click(function(){
 			toggleComments();
 			return false;
 		});
@@ -19,11 +22,11 @@
 			commentsActive = true;
 			// post message to child window
 			document.getElementById('sg-viewport').contentWindow.postMessage("on","http://"+window.location.host);
-			$('#comment-link strong').text('ON');
+			$('#sg-t-annotations').text('Annotations On');
 		} else {
 			commentsActive = false;
 			document.getElementById('sg-viewport').contentWindow.postMessage("off","http://"+window.location.host);
-			$('#comment-link strong').text('OFF');
+			$('#sg-t-annotations').text('Annotations Off');
 			slideComment(999);
 		}
 	};
@@ -31,7 +34,7 @@
 	function commentContainerInit() {
 			$('<div id="comment-container"></div>').html('<a href="#" id="close-comments">Close</a><h2 id="comment-title">Annotation Title</h2><div id="comment-text">Here is some comment text</div>').appendTo('body').css('bottom',-$(this).outerHeight());
 			
-			if(sw<breakpoint) {
+			if(sw < breakpoint) {
 				$('#comment-container').hide();
 			} else {
 				$('#comment-container').show();
@@ -53,7 +56,6 @@
 			$('html,body').animate({scrollTop: offset}, 500);
 		}
 	}
-		
 	
 	function updateComment(el,title,msg) {
 			var $container = $('#comment-container'),
@@ -79,3 +81,9 @@
 	window.addEventListener("message", receiveIframeMessage, false);
 	
 })(this);
+
+// no idea why this has to be outside. there's something funky going on with the JS pattern
+$('#sg-t-annotations').click(function() {
+	$(this).parent().parent().removeClass('active');
+	$(this).parent().parent().parent().parent().removeClass('active');
+});
