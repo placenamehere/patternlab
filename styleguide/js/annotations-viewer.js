@@ -81,7 +81,7 @@
 })(this);
 
 // no idea why this has to be outside. there's something funky going on with the JS pattern
-$('#sg-t-annotations').click(function() {
+$('#sg-view li a').click(function() {
 	$(this).parent().parent().removeClass('active');
 	$(this).parent().parent().parent().parent().removeClass('active');
 });
