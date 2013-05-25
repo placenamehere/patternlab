@@ -4,8 +4,6 @@
 		sw = document.documentElement.clientWidth,
 		breakpoint = 650;
 		
-	console.log(sw); 
-	
 	$(document).ready(function() {
 		$('body').addClass('comments-ready');
 		$('#sg-t-annotations').click(function(){
